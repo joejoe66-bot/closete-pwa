@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#596347">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="CLOSETÉ">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>CLOSETÉ — My Digital Wardrobe</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://accounts.google.com; style-src 'self' 'unsafe-inline' https://accounts.google.com; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com https://images.unsplash.com; font-src 'self'; connect-src 'self' https://sheets.googleapis.com https://www.googleapis.com https://oauth2.googleapis.com https://accounts.google.com; frame-src https://accounts.google.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
+  <link rel="manifest" href="%BASE_URL%manifest.webmanifest">
+  <link rel="icon" href="%BASE_URL%icons/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="%BASE_URL%icons/apple-touch-icon.png">
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="logo">CLOSETÉ</div>
+    <nav class="nav" aria-label="Wardrobe">
+      <button type="button" class="active" data-view="all">⌂ Overview</button>
+      <button type="button" data-view="all">♧ Wardrobe</button>
+      <button type="button" data-view="Outfits">▦ Outfits</button>
+      <button type="button" data-view="favorites">♡ Wishlist</button>
+      <button type="button" data-view="insights">▥ Insights</button>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="top">
+      <input class="search" id="search" placeholder="⌕ Search your wardrobe..." aria-label="Search your wardrobe">
+      <button type="button" class="pill" id="refresh">↻</button>
+      <button type="button" class="pill" id="setupBtn">Setup</button>
+      <button type="button" class="pill" id="installBtn">Install</button>
+      <button type="button" class="pill" id="addTop">＋ Add</button>
+    </div>
+
+    <div id="appStatus" class="status" role="status" aria-live="polite" data-state="needs-config">
+      <strong id="statusTitle">Not connected</strong>
+      <span id="statusDetail">Open Setup to add the OAuth client ID and spreadsheet ID.</span>
+    </div>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Your personal wardrobe</div>
+        <h1>Your wardrobe,<br>reimagined. ♡</h1>
+        <p>Every piece you own, all in one place.</p>
+        <button type="button" class="primary" id="addHero">＋ Add a piece</button>
+      </div>
+      <div class="hero-img" role="img" aria-label="Wardrobe still life"></div>
+    </section>
+
+    <section class="stats">
+      <div class="stat"><small>♧ Pieces</small><strong id="count">—</strong><small>In your collection</small></div>
+      <div class="stat"><small>▦ Categories</small><strong id="categories">—</strong><small>Different styles</small></div>
+      <div class="stat"><small>◎ Total value</small><strong id="value">—</strong><small>Recorded prices</small></div>
+      <div class="stat"><small>♡ Wishlist</small><strong id="favCount">—</strong><small>Saved favorites</small></div>
+    </section>
+
+    <div class="section-head">
+      <h2 id="collectionTitle">Your collection</h2>
+      <div class="filters" id="filters"></div>
+    </div>
+    <p id="viewNote" class="view-note" hidden></p>
+
+    <div class="grid" id="items">
+      <div class="empty">Your Google wardrobe is not connected. Open Setup, or try the local demo.</div>
+    </div>
+  </main>
+</div>
+
+<div class="modal-back" id="setupBack">
+  <div class="modal setup" role="dialog" aria-modal="true" aria-labelledby="setupTitle">
+    <h2 id="setupTitle">Connect your wardrobe</h2>
+    <p class="lede">This stores the public client ID and spreadsheet ID in this browser only. It does not sign you in, read a sheet, or save clothes. Connected appears only after Google returns your Wardrobe tab.</p>
+    <form id="setupForm">
+      <div class="form">
+        <label class="field wide">OAuth client ID
+          <input name="clientId" autocomplete="off" spellcheck="false" placeholder="1234567890-abc.apps.googleusercontent.com">
+          <span class="field-error" data-error="clientId"></span>
+        </label>
+        <label class="field wide">Spreadsheet ID or URL
+          <input name="spreadsheetId" autocomplete="off" spellcheck="false" placeholder="https://docs.google.com/spreadsheets/d/…/edit">
+          <span class="field-error" data-error="spreadsheetId"></span>
+        </label>
+        <label class="field wide">Drive folder ID or URL, optional
+          <input name="folderId" autocomplete="off" spellcheck="false" placeholder="Existing CLOSETÉ Wardrobe Photos folder">
+          <span class="field-error" data-error="folderId"></span>
+        </label>
+        <label class="check wide">
+          <input name="shareWithLink" type="checkbox">
+          <span>Make new photos visible to anyone with the link. Leave this off to keep photos private. The original Apps Script app turned link sharing on for every upload. Private photos still show here while you are signed in, and they will not show in the old app.</span>
+        </label>
+      </div>
+      <p class="origin" id="originHelp"></p>
+      <ul class="scope-list">
+        <li>https://www.googleapis.com/auth/spreadsheets</li>
+        <li>https://www.googleapis.com/auth/drive.file</li>
+      </ul>
+      <div class="modal-actions">
+        <button type="button" class="pill" id="demoBtn">Try a local demo</button>
+        <button type="submit" class="pill">Store on this device</button>
+        <button type="button" class="primary" id="signInBtn">Sign in with Google</button>
+        <button type="button" class="pill" id="createFolderBtn">Create private photo folder</button>
+        <button type="button" class="pill" id="closeSetup">Close</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-back" id="modalBack">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">Add a piece</h2>
+    <form id="itemForm">
+      <input type="hidden" name="id">
+      <div class="form">
+        <label class="field">Item name *
+          <input name="name" required placeholder="e.g. Linen shirt">
+        </label>
+        <label class="field">Category
+          <select name="category">
+            <option>Tops</option><option>Bottoms</option>
+            <option>Outerwear</option><option>Shoes</option>
+            <option>Accessories</option><option>Dresses</option>
+            <option>Sportswear</option><option>Other</option>
+          </select>
+        </label>
+        <label class="field">Brand<input name="brand" placeholder="e.g. Uniqlo"></label>
+        <label class="field">Color<input name="color" placeholder="e.g. Olive green"></label>
+        <label class="field">Size<input name="size" placeholder="e.g. M / 32"></label>
+        <label class="field">Price<input name="price" type="number" min="0" step="0.01" placeholder="0.00"></label>
+        <label class="field">Purchase date<input name="purchaseDate" type="date"></label>
+        <div class="field wide">
+          <span>Photo</span>
+          <div class="photo-control">
+            <div class="photo-preview" id="photoPreview"><span>No photo selected</span></div>
+            <div>
+              <div class="photo-buttons">
+                <button type="button" class="pill" id="takePhoto">Take photo</button>
+                <button type="button" class="pill" id="importPhoto">Import photo</button>
+                <button type="button" class="pill" id="removePhoto">Remove</button>
+              </div>
+              <div class="photo-help">Take a picture or choose a file. A signed-in save uploads it to the configured Drive folder. It stays private unless link sharing is on in Setup.</div>
+            </div>
+          </div>
+          <input type="file" id="cameraFile" accept="image/*" capture="environment" hidden>
+          <input type="file" id="importFile" accept="image/*" hidden>
+          <input class="photo-url" name="imageUrl" type="url" placeholder="Or paste an image URL (optional)">
+        </div>
+        <label class="field wide">Notes<textarea name="notes" rows="2" placeholder="Fit, material, storage…"></textarea></label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="pill" id="cancel">Cancel</button>
+        <button type="submit" class="primary">Save piece</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-back" id="installBack">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="installTitle">
+    <h2 id="installTitle">Install CLOSETÉ</h2>
+    <p class="lede" id="installLead"></p>
+    <ol class="install-steps" id="installSteps"></ol>
+    <div class="modal-actions">
+      <button type="button" class="primary" id="installNow" hidden>Install</button>
+      <button type="button" class="pill" id="closeInstall">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="update" id="updateBanner" hidden>
+  <span>A new version is ready. Reload to update the app shell. Your sheet is not changed.</span>
+  <button type="button" class="primary" id="applyUpdate">Reload</button>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
