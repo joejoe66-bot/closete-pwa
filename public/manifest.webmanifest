@@ -1,0 +1,32 @@
+{
+  "name": "CLOSETÉ — My Digital Wardrobe",
+  "short_name": "CLOSETÉ",
+  "description": "Installable wardrobe for your confirmed Google Sheet. Sign-in is required and is not configured in this copy.",
+  "id": "/closete-pwa/",
+  "start_url": "/closete-pwa/",
+  "scope": "/closete-pwa/",
+  "display": "standalone",
+  "background_color": "#f7f1eb",
+  "theme_color": "#596347",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/closete-pwa/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/closete-pwa/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/closete-pwa/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
