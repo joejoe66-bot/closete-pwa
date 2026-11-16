@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /
+
+# Best-effort only. This is not access protection.
+# On a GitHub project site this file is served at /closete-pwa/robots.txt.
+# Crawlers read robots.txt from the host root, so this file may be ignored.
+# The page also sends a noindex meta tag. Anyone with the address can still open it.

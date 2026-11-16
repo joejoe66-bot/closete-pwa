@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#596347">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="description" content="CLOSETÉ — My Digital Wardrobe. An installable app for your Google Sheet.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="CLOSETÉ">
+  <title>CLOSETÉ — My Digital Wardrobe</title>
+  <link rel="manifest" href="%BASE_URL%manifest.webmanifest">
+  <link rel="icon" href="%BASE_URL%icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="%BASE_URL%icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f1eb;
+      --paper: #fffaf5;
+      --ink: #252720;
+      --muted: #77766e;
+      --olive: #596347;
+      --line: #e9dfd5;
+      --rose: #c9826a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 80% 0%, #e7ded0 0, transparent 34%), var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; touch-action: manipulation; transition: transform .2s, box-shadow .2s; }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #51473520; }
+    button:disabled { cursor: not-allowed; opacity: .6; transform: none; box-shadow: none; }
+
+    .app { display: grid; grid-template-columns: 190px 1fr; min-height: 100vh; }
+
+    .side {
+      padding: 25px 15px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .logo {
+      font: 600 27px 'Playfair Display', Georgia, serif;
+      letter-spacing: 1px;
+      padding: 6px 12px 20px;
+    }
+
+    .nav { display: grid; gap: 8px; }
+
+    .nav button {
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 13px;
+      border-radius: 30px;
+      color: #4c4b43;
+    }
+
+    .nav button.active, .primary {
+      background: var(--olive);
+      color: white;
+    }
+
+    .main {
+      padding: 25px 30px 45px;
+      max-width: 1600px;
+      width: 100%;
+      margin: auto;
+    }
+
+    .top { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+
+    .search {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid var(--line);
+      background: #fffaf5dd;
+      border-radius: 30px;
+      padding: 13px 17px;
+      outline-color: var(--olive);
+    }
+
+    .pill, .filter {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 30px;
+      padding: 10px 15px;
+      min-height: 42px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      border-radius: 26px;
+      background: linear-gradient(110deg, #f9f1e9, #e4d7c7);
+      min-height: 250px;
+    }
+
+    .hero-copy { padding: 32px; }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 11px;
+      color: var(--olive);
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font: clamp(32px, 3vw, 48px)/1.1 'Playfair Display', Georgia, serif;
+      margin: 14px 0;
+    }
+
+    .hero p { color: #68645c; }
+
+    .hero-img {
+      background:
+        linear-gradient(90deg, #e9dfd4aa, #e9dfd400),
+        url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1100&q=85') center/cover;
+      min-height: 250px;
+    }
+
+    .primary {
+      border: 0;
+      border-radius: 30px;
+      padding: 13px 20px;
+      margin-top: 8px;
+      min-height: 44px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 13px;
+      margin: 16px 0 26px;
+    }
+
+    .stat, .card, .gate, .folder-bar {
+      background: #fffaf5e8;
+      border: 1px solid #eee4db;
+      border-radius: 18px;
+      box-shadow: 0 5px 18px #54442b08;
+    }
+
+    .stat { padding: 17px; }
+    .stat small { color: var(--muted); }
+
+    .stat strong {
+      display: block;
+      font: 600 25px 'Playfair Display', Georgia, serif;
+      margin: 7px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin: 25px 0 15px;
+    }
+
+    .section-head h2 {
+      font: 600 29px 'Playfair Display', Georgia, serif;
+      margin: 0;
+    }
+
+    .filters { display: flex; gap: 7px; flex-wrap: wrap; }
+    .filter.active { background: var(--olive); color: white; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .card {
+      overflow: hidden;
+      animation: rise .4s both;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 32px #5147351b;
+    }
+
+    .photo {
+      height: 190px;
+      background: #eee5db;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s;
+    }
+
+    .card:hover .photo img { transform: scale(1.05); }
+
+    .heart {
+      position: absolute;
+      right: 9px;
+      top: 9px;
+      border: 0;
+      background: #fffaf0e8;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 19px;
+    }
+
+    .details { padding: 12px; }
+    .details h3 { font-size: 14px; margin: 0 0 5px; }
+    .details p { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+
+    .tag {
+      display: inline-block;
+      border-radius: 20px;
+      background: #eee6dc;
+      padding: 5px 9px;
+      font-size: 11px;
+    }
+
+    .price { font-weight: 600; margin-top: 9px; font-size: 13px; }
+
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 55px 15px;
+      color: var(--muted);
+    }
+
+    .modal-back {
+      position: fixed;
+      inset: 0;
+      background: #211e1b75;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-back.show { display: flex; animation: fade .2s; }
+
+    .modal {
+      width: min(600px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      background: var(--paper);
+      border-radius: 25px;
+      padding: 25px;
+      box-shadow: 0 25px 80px #0003;
+      animation: rise .25s;
+    }
+
+    .modal h2 { font: 600 29px 'Playfair Display', Georgia, serif; margin: 0 0 20px; }
+
+    .form { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+
+    .field { display: grid; gap: 6px; font-size: 12px; color: var(--muted); }
+
+    .field input, .field select, .field textarea {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      color: var(--ink);
+      width: 100%;
+      outline-color: #9aa287;
+    }
+
+    .photo-control { display: flex; gap: 14px; align-items: center; }
+
+    .photo-preview {
+      width: 112px;
+      height: 112px;
+      flex: 0 0 112px;
+      border-radius: 14px;
+      background: #eee5db;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      color: #8f887d;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .photo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+    .photo-buttons .pill { min-height: 44px; }
+
+    .photo-help {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.45;
+    }
+
+    .photo-url { margin-top: 10px; }
+    .wide { grid-column: 1/-1; }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-actions button {
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: 52px;
+      margin-top: 0;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      background: #252720;
+      color: white;
+      padding: 13px 20px;
+      border-radius: 30px;
+      transition: .25s;
+      z-index: 20;
+      pointer-events: none;
+      max-width: min(520px, calc(100% - 24px));
+      text-align: center;
+    }
+
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    .status, .folder-bar {
+      display: none;
+      margin: 0 0 14px;
+      padding: 12px 16px;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .status.show, .folder-bar.show { display: block; }
+    .status.error { border-color: #e3c2b6; background: #fff6f2; }
+    .status button, .folder-bar button { margin: 8px 8px 0 0; }
+
+    .gate { padding: 22px; margin-bottom: 8px; }
+    .gate h2 { font: 600 29px 'Playfair Display', Georgia, serif; margin: 0 0 8px; }
+    .gate p { color: #4c4b43; line-height: 1.5; }
+    .gate ol, .help-list { margin: 10px 0 0; padding-left: 18px; color: #4c4b43; }
+    .gate li, .help-list li { margin: 6px 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; word-break: break-all; }
+    .folder-id { min-width: min(100%, 280px); }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+    @media (min-width: 761px) and (max-width: 1100px) {
+      .app { grid-template-columns: 145px minmax(0, 1fr); }
+      .side { padding: 20px 10px; }
+      .main { padding: 20px; }
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px; }
+      .photo { height: clamp(150px, 22vw, 220px); }
+      .hero-copy { padding: 25px; }
+      .stats { gap: 9px; }
+      .stat { padding: 13px; }
+    }
+
+    @media (max-width: 760px) {
+      body { padding-bottom: 76px; }
+
+      .app { display: block; }
+
+      .side {
+        position: fixed;
+        z-index: 8;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fffaf5f2;
+        backdrop-filter: blur(16px);
+        border-top: 1px solid var(--line);
+        padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+        display: block;
+      }
+
+      .logo { display: none; }
+
+      .nav {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2px;
+      }
+
+      .nav button {
+        padding: 9px 2px;
+        border-radius: 13px;
+        text-align: center;
+        font-size: 11px;
+        min-height: 52px;
+      }
+
+      .main { padding: 12px 12px 24px; }
+      .top { flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+      .search { flex: 1 1 100%; padding: 12px; font-size: 14px; }
+      #refresh { display: none; }
+      #install, #account { padding: 10px 12px; font-size: 12px; }
+
+      .hero { grid-template-columns: 1fr; min-height: 0; border-radius: 22px; }
+      .hero-copy { padding: 23px 20px 18px; }
+      .hero h1 { font-size: clamp(31px, 8vw, 42px); margin: 11px 0; }
+      .hero p { font-size: 14px; line-height: 1.5; }
+      .hero-img { min-height: 130px; max-height: 160px; }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+        margin: 12px 0 22px;
+      }
+
+      .stat { padding: 13px; border-radius: 16px; }
+      .stat strong { font-size: 22px; }
+      .stat small { font-size: 11px; }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .section-head h2 { font-size: 27px; }
+
+      .filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        width: 100%;
+        padding: 2px 1px 7px;
+        scrollbar-width: none;
+      }
+
+      .filters::-webkit-scrollbar { display: none; }
+      .filter { white-space: nowrap; flex: 0 0 auto; font-size: 12px; padding: 9px 13px; }
+
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .card { border-radius: 16px; }
+      .photo { height: clamp(135px, 43vw, 205px); }
+      .details { padding: 10px; }
+      .details h3 { font-size: 13px; line-height: 1.4; }
+      .details p { font-size: 11px; }
+
+      .modal-back { align-items: flex-end; padding: 0; }
+
+      .modal {
+        width: 100%;
+        max-height: 92dvh;
+        border-radius: 24px 24px 0 0;
+        padding: 22px 18px calc(20px + env(safe-area-inset-bottom));
+      }
+
+      .form { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .photo-control { align-items: flex-start; }
+      .photo-preview { width: 96px; height: 96px; flex-basis: 96px; }
+
+      .field input, .field select, .field textarea {
+        font-size: 16px;
+        padding: 12px;
+      }
+
+      .modal-actions {
+        position: sticky;
+        bottom: 0;
+        background: var(--paper);
+        padding-top: 10px;
+      }
+
+      .toast { bottom: calc(84px + env(safe-area-inset-bottom)); }
+    }
+
+    @media (max-width: 380px) {
+      .main { padding-left: 9px; padding-right: 9px; }
+      .top .primary { padding: 10px 12px; font-size: 12px; }
+      .photo { height: 132px; }
+      .form { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="logo">CLOSETÉ</div>
+    <nav class="nav" aria-label="Wardrobe">
+      <button class="active" data-view="all" id="navOverview">⌂ Overview</button>
+      <button data-view="all" id="navWardrobe">♧ Wardrobe</button>
+      <button data-view="favorites" id="navWishlist">♡ Wishlist</button>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="top">
+      <input class="search" id="search" placeholder="⌕ Search your wardrobe..." aria-label="Search your wardrobe">
+      <button class="pill" id="refresh" type="button">↻</button>
+      <button class="pill" id="install" type="button">Install</button>
+      <button class="pill" id="account" type="button">Setup</button>
+      <button class="pill" id="addTop" type="button">＋ Add</button>
+    </div>
+
+    <div id="status" class="status" role="status"></div>
+    <div id="folderBar" class="folder-bar"></div>
+
+    <section id="gate" class="gate" aria-labelledby="gateTitle">
+      <div class="eyebrow">Not connected</div>
+      <h2 id="gateTitle">Google sign-in is not configured</h2>
+      <p id="gateLead">This copy has no OAuth client ID. Sign-in cannot start. The wardrobe spreadsheet is not being read or written, and there is no live Google connection.</p>
+      <p>The configured tab is <strong>Wardrobe</strong>. Currency stays <strong>S$</strong>. The spreadsheet id stays in the app config and is not shown on this page.</p>
+      <p class="photo-help">Search engines are asked not to index this page. That request is best-effort only and is not access protection. Anyone who has the address can still open it. Wardrobe rows stay behind Google sign-in.</p>
+      <ol id="setupSteps">
+        <li>In Google Cloud, enable the Google Sheets API and the Google Drive API.</li>
+        <li>Configure the OAuth consent screen. While it is in testing, add the Google account that owns the wardrobe as a test user.</li>
+        <li>Create an OAuth client ID of type Web application. Add the JavaScript origin you will actually open, such as <span class="mono">http://localhost:4173</span>. Do not create or paste a client secret.</li>
+        <li>Put that client ID in <span class="mono">public/config.js</span> as <span class="mono">CLIENT_ID</span> and rebuild. Leave it blank until the client exists.</li>
+        <li>After sign-in, create a private Drive folder named CLOSETÉ Wardrobe Photos, or paste a folder ID this app created. Photos are not shared to anyone with the link.</li>
+      </ol>
+      <div class="actions">
+        <button class="primary" id="demoButton" type="button">View demo wardrobe</button>
+        <button class="pill" id="installGate" type="button">Installation help</button>
+      </div>
+      <p class="photo-help">Demo mode shows labeled sample pieces on this device only. It does not read or write your spreadsheet.</p>
+    </section>
+
+    <div id="liveApp" hidden>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Your personal wardrobe</div>
+          <h1>Your wardrobe,<br>reimagined. ♡</h1>
+          <p>Every piece you own, all in one place.</p>
+          <button class="primary" id="addHero" type="button">＋ Add a piece</button>
+        </div>
+        <div class="hero-img" role="img" aria-label="Wardrobe still life"></div>
+      </section>
+
+      <section class="stats">
+        <div class="stat"><small>♧ Pieces</small><strong id="count">—</strong><small>In your collection</small></div>
+        <div class="stat"><small>▦ Categories</small><strong id="categories">—</strong><small>Different styles</small></div>
+        <div class="stat"><small>◎ Total value</small><strong id="value">—</strong><small>Recorded prices</small></div>
+        <div class="stat"><small>♡ Wishlist</small><strong id="favCount">—</strong><small>Saved favorites</small></div>
+      </section>
+
+      <div class="section-head">
+        <h2 id="collectionTitle">Your collection</h2>
+        <div class="filters" id="filters"></div>
+      </div>
+
+      <div class="grid" id="items">
+        <div class="empty">Connect Google to load your wardrobe.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="modal-back" id="modalBack">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">Add a piece</h2>
+    <form id="itemForm">
+      <input type="hidden" name="id">
+      <div class="form">
+        <label class="field">Item name *
+          <input name="name" required placeholder="e.g. Linen shirt">
+        </label>
+        <label class="field">Category
+          <select name="category">
+            <option>Tops</option>
+            <option>Bottoms</option>
+            <option>Outerwear</option>
+            <option>Shoes</option>
+            <option>Accessories</option>
+            <option>Dresses</option>
+            <option>Sportswear</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label class="field">Brand<input name="brand" placeholder="e.g. Uniqlo"></label>
+        <label class="field">Color<input name="color" placeholder="e.g. Olive green"></label>
+        <label class="field">Size<input name="size" placeholder="e.g. M / 32"></label>
+        <label class="field">Price<input name="price" type="number" min="0" step=".01" placeholder="0.00"></label>
+        <label class="field">Purchase date<input name="purchaseDate" type="date"></label>
+        <div class="field wide">
+          <span>Photo</span>
+          <div class="photo-control">
+            <div class="photo-preview" id="photoPreview"><span>No photo selected</span></div>
+            <div>
+              <div class="photo-buttons">
+                <button type="button" class="pill" id="takePhoto">📷 Take photo</button>
+                <button type="button" class="pill" id="importPhoto">＋ Import photo</button>
+                <button type="button" class="pill" id="removePhoto">Remove</button>
+              </div>
+              <div class="photo-help">Take a picture or choose one from Photos / Files. After you sign in and choose a folder, the photo is saved privately in your Google Drive. It is not shared to anyone with the link.</div>
+            </div>
+          </div>
+          <input type="file" id="cameraFile" accept="image/*" capture="environment" hidden>
+          <input type="file" id="importFile" accept="image/*" hidden>
+          <input class="photo-url" name="imageUrl" type="url" placeholder="Or paste an image URL (optional)">
+        </div>
+        <label class="field wide">Notes<textarea name="notes" rows="2" placeholder="Fit, material, storage…"></textarea></label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="pill" id="cancel">Cancel</button>
+        <button type="submit" class="primary" id="savePiece">Save piece</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-back" id="helpBack">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <h2 id="helpTitle">Install CLOSETÉ</h2>
+    <ol class="help-list">
+      <li><strong>Android, Chrome, or Edge.</strong> Open the browser menu and choose Install app or Add to Home screen. If this browser offers a prompt, use the Install button.</li>
+      <li><strong>iPhone or iPad.</strong> Open this site in Safari. Tap Share, then Add to Home Screen. The home-screen icon opens it standalone. Chrome and in-app browsers on iOS cannot install it.</li>
+      <li><strong>Desktop.</strong> Use the install icon in the Chrome or Edge address bar.</li>
+    </ol>
+    <p class="photo-help">Offline, the app shell can open after it has been visited once. Wardrobe rows are not stored on the device. Saves, favorites, and wear logs stay disabled offline and are not queued. An update banner appears when a new service worker is waiting.</p>
+    <div class="modal-actions">
+      <button type="button" class="pill" id="closeHelp">Close</button>
+      <button type="button" class="primary" id="promptInstall">Install</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="%BASE_URL%config.js"></script>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
