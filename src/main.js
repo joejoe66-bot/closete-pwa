@@ -218,7 +218,7 @@ function render() {
           <p>${escapeHtml(item.brand || 'No brand')}${item.color ? ` · ${escapeHtml(item.color)}` : ''}</p>
           <span class="tag">${escapeHtml(item.category)}</span>
           <div class="price">${formatMoney(item.price, item.currency || config.currency || 'S$')}</div>
-          <div style="display:flex;gap:6px;margin-top:12px">
+          <div class="card-actions">
             <button class="filter" type="button" data-edit="${escapeHtml(item.id)}">Edit</button>
             <button class="filter" type="button" data-worn="${escapeHtml(item.id)}">Wore it</button>
           </div>

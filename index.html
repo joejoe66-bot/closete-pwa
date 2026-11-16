@@ -76,12 +76,23 @@
 
     .main {
       padding: 25px 30px 45px;
-      max-width: 1600px;
-      width: 100%;
-      margin: auto;
+      width: min(1120px, 100%);
+      min-width: 0;
+      margin: 0;
+      justify-self: center;
+      align-self: start;
     }
 
-    .top { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+    .top { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; min-width: 0; }
+    .top .pill {
+      height: 44px;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
 
     .search {
       flex: 1;
@@ -144,8 +155,8 @@
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 13px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
       margin: 16px 0 26px;
     }
 
@@ -167,9 +178,10 @@
 
     .section-head {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 12px;
       margin: 25px 0 15px;
     }
 
@@ -178,16 +190,23 @@
       margin: 0;
     }
 
-    .filters { display: flex; gap: 7px; flex-wrap: wrap; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; width: 100%; }
+    .filter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
     .filter.active { background: var(--olive); color: white; }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 13px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
     }
 
     .card {
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
       animation: rise .4s both;
       transition: transform .25s, box-shadow .25s;
@@ -226,9 +245,23 @@
       font-size: 19px;
     }
 
-    .details { padding: 12px; }
+    .details { display: flex; flex-direction: column; flex: 1; padding: 12px; }
     .details h3 { font-size: 14px; margin: 0 0 5px; }
     .details p { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+    .card-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 12px;
+    }
+    .card-actions .filter {
+      width: 100%;
+      min-width: 0;
+      margin: 0;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
 
     .tag {
       display: inline-block;
@@ -374,7 +407,24 @@
     .gate p { color: #4c4b43; line-height: 1.5; }
     .gate ol, .help-list { margin: 10px 0 0; padding-left: 18px; color: #4c4b43; }
     .gate li, .help-list li { margin: 6px 0; }
-    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .actions .primary,
+    .actions .pill {
+      flex: 1 1 200px;
+      max-width: 280px;
+      height: 48px;
+      min-height: 48px;
+      margin-top: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; word-break: break-all; }
     .folder-id { min-width: min(100%, 280px); }
 
@@ -389,15 +439,24 @@
       .app { grid-template-columns: 145px minmax(0, 1fr); }
       .side { padding: 20px 10px; }
       .main { padding: 20px; }
-      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px; }
+      .top { flex-wrap: wrap; }
+      .search { flex: 1 1 100%; min-width: 0; }
+      .top .pill { flex: 1 1 0; }
+      .stats, .grid { gap: 12px; }
       .photo { height: clamp(150px, 22vw, 220px); }
       .hero-copy { padding: 25px; }
-      .stats { gap: 9px; }
       .stat { padding: 13px; }
     }
 
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-img { min-height: 160px; max-height: 220px; }
+      .stats, .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
     @media (max-width: 760px) {
-      body { padding-bottom: 76px; }
+      html { scroll-padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+      body { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 
       .app { display: block; }
 
@@ -430,11 +489,13 @@
         min-height: 52px;
       }
 
-      .main { padding: 12px 12px 24px; }
+      .main { width: 100%; padding: 12px 12px 8px; justify-self: stretch; }
       .top { flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-      .search { flex: 1 1 100%; padding: 12px; font-size: 14px; }
+      .search { flex: 1 1 100%; min-width: 0; padding: 12px; font-size: 14px; }
       #refresh { display: none; }
-      #install, #account { padding: 10px 12px; font-size: 12px; }
+      .top .pill { flex: 1 1 0; min-width: 0; font-size: 12px; padding-left: 8px; padding-right: 8px; }
+      .actions .primary,
+      .actions .pill { flex-basis: 100%; max-width: none; }
 
       .hero { grid-template-columns: 1fr; min-height: 0; border-radius: 22px; }
       .hero-copy { padding: 23px 20px 18px; }
@@ -471,7 +532,7 @@
       .filters::-webkit-scrollbar { display: none; }
       .filter { white-space: nowrap; flex: 0 0 auto; font-size: 12px; padding: 9px 13px; }
 
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .stats, .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
       .card { border-radius: 16px; }
       .photo { height: clamp(135px, 43vw, 205px); }
       .details { padding: 10px; }
