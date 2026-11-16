@@ -1,6 +1,7 @@
-# Optional. Does not run on push. Does not change repository visibility.
-# Read docs/PAGES.md before dispatching this workflow.
-name: GitHub Pages (optional, manual)
+# Manual only. Does not run on push and does not change repository visibility.
+# Dispatch only after the owner has made this free-plan repository public.
+# Read docs/PAGES.md. noindex is not access protection.
+name: GitHub Pages (manual, free public repo)
 
 on:
   workflow_dispatch:

@@ -1,15 +1,10 @@
 # CLOSETÉ PWA
 
-Installable wardrobe app for the confirmed Google Sheet. The visual design and wardrobe behavior come from the owner’s latest `Index.html` (three tabs: Overview, Wardrobe, Wishlist). Browser OAuth is **not configured** in this repo, and this app is **not deployed**.
+Installable wardrobe app for the confirmed Google Sheet. The visual design and wardrobe behavior come from the owner’s latest `Index.html` (three tabs: Overview, Wardrobe, Wishlist). Browser OAuth is **not configured**. `CLIENT_ID` is empty, so the setup gate stays up and the app does not claim a live connection.
 
-Confirmed target, checked separately with a read-only header verification:
+The spreadsheet id is owner-supplied client config in `public/config.js`. It is not printed on the page. It does not grant access to wardrobe rows. Tab `Wardrobe`. Currency `S$`. Dates use `Asia/Singapore`.
 
-- Spreadsheet `1NqubXEZAIJdBOnK9iru0qR4b2jPc8tRPToR2s9mYCng` (`CLOSETÉ Wardrobe App`)
-- Tab `Wardrobe`, sheet id `1746053320`
-- Columns `A:O`: `id`, `name`, `category`, `brand`, `color`, `size`, `price`, `purchaseDate`, `imageUrl`, `notes`, `favorite`, `lastWorn`, `wearCount`, `createdAt`, `updatedAt`
-- Currency `S$`, dates in `Asia/Singapore`
-
-That check did not read wardrobe rows and did not write. It does not mean this PWA can sign in.
+A read-only header check confirmed that tab and did not read wardrobe rows. This repository is still private until its owner changes visibility in GitHub. The site is not deployed.
 
 ## What works in this copy
 
@@ -37,5 +32,5 @@ Preview: `http://127.0.0.1:4173/closete-pwa/`
 ## Docs
 
 - [Setup still required, especially OAuth](docs/SETUP.md)
-- [Optional GitHub Pages](docs/PAGES.md)
+- [GitHub Pages plan](docs/PAGES.md)
 - Legacy sources, including the authoritative Index.html, are in `legacy/closete-source/`

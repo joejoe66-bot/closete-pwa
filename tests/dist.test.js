@@ -14,6 +14,10 @@ describe.skipIf(!built)('built app shell', () => {
     expect(index).toContain('/closete-pwa/manifest.webmanifest');
     expect(index).toContain('/closete-pwa/config.js');
     expect(index).not.toMatch(/Outfits|Insights|google\.script\.run|%BASE_URL%/);
+    expect(index).toContain('content="noindex, nofollow"');
+    expect(index).not.toContain('1NqubXEZAIJdBOnK9iru0qR4b2jPc8tRPToR2s9mYCng');
+    expect(readFileSync('dist/robots.txt', 'utf8')).toMatch(/Disallow:\s*\//);
+    expect(config).toContain('1NqubXEZAIJdBOnK9iru0qR4b2jPc8tRPToR2s9mYCng');
     expect(manifest.start_url).toBe('/closete-pwa/');
     expect(manifest.scope).toBe('/closete-pwa/');
     expect(config).toMatch(/CLIENT_ID:\s*''/);

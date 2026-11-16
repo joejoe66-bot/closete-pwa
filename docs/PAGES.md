@@ -1,25 +1,30 @@
-# Optional GitHub Pages
+# GitHub Pages
 
-This repo does not deploy the PWA. `.github/workflows/pages.yml` is `workflow_dispatch` only, so a push does not publish the site. Do not run it until the notes below are acceptable.
+The owner asked for a public repository and a free GitHub Pages site, plus a hard-to-find address. This file is the deploy plan. It does not change repository visibility, and the workflow has not been run.
 
 The built site uses base path `/closete-pwa/`, which matches a project site at `https://<owner>.github.io/closete-pwa/`.
 
-## Private repository and plan limits
+## What “low discoverability” can and cannot do
 
-The repository should stay private. Publishing Pages does not require making the git repo public, but the plan and the site’s visibility are separate:
+`index.html` sends `noindex, nofollow`. `robots.txt` says `Disallow: /`. Both are requests to crawlers. They are not access protection.
 
-- GitHub Free can serve Pages from **public** repositories only.
-- GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server can serve Pages from a **private** repository.
-- A Pages site is still **public on the internet** when it is published from a private repository, unless the owner is an organization on GitHub Enterprise Cloud with access control for GitHub Pages enabled. A personal private repo does not get a private website from Pages.
+A free GitHub Pages project URL is formed from the account name and the repository name. It is not a secret link. Anyone who can guess or is given that address can open the app shell. The setup gate still requires an OAuth client ID before sign-in, and wardrobe rows still require that Google account. Demo pieces are labeled samples, not the live sheet. Photos are not made public.
 
-If the site is published, visitors can download the HTML, JavaScript, manifest, and `config.js`. That exposes the spreadsheet ID and the OAuth client ID. Those are not sufficient to read the sheet. Wardrobe rows still require the user’s Google sign-in. Do not put a client secret, refresh token, or access token in `config.js` before publishing; the workflow uploads the built `dist/` directory.
+`robots.txt` in this project is served under `/closete-pwa/robots.txt`. Crawlers only promise to read `robots.txt` from the host root (`https://<owner>.github.io/robots.txt`). The meta tag is the request that applies to the HTML page itself.
 
-## If you later choose to publish
+## Free plan
 
-1. Confirm the GitHub plan can enable Pages on a private repo, and accept that the site itself is public unless enterprise access control applies.
-2. In the repo settings, set Pages source to **GitHub Actions**.
-3. Add the published origin, for example `https://<owner>.github.io`, to the OAuth client’s authorized JavaScript origins. Origins have no path.
-4. Run the **GitHub Pages (optional, manual)** workflow by hand. It runs `npm ci` and `npm run build`, then deploys `dist/`.
-5. Open `https://<owner>.github.io/closete-pwa/` and confirm the setup screen or, after `CLIENT_ID` is set, the Google sign-in prompt. A successful Pages deploy is still not a wardrobe connection until that sign-in works.
+GitHub Free serves Pages from **public** repositories. It does not serve Pages from a private personal repository. This repo is still private. Making it public is a GitHub UI step for the owner. This project does not change visibility and does not add billing.
 
-This project has not run that workflow and has not changed repository visibility.
+Publishing the site also publishes the files in the repository, including `public/config.js`. That file contains the spreadsheet id and, later, a public OAuth client ID. Neither value reads the sheet by itself. Do not put a client secret, refresh token, or access token there. The Pages workflow uploads `dist/` only.
+
+A second branch, `cursor/closete-pwa-afc5` (pull request 1), is also in the repository. A public repository shows every branch that still exists.
+
+## When the repository is public
+
+1. In the repository settings, set Pages to **GitHub Actions**.
+2. Run **GitHub Pages (manual, free public repo)** by hand. It does not run on push. It runs `npm ci` and `npm run build`, then deploys `dist/`.
+3. Open `https://<owner>.github.io/closete-pwa/` and confirm the setup screen. An empty client ID means there is still no live wardrobe connection.
+4. After a real web client ID exists, add `https://<owner>.github.io` to its authorized JavaScript origins. Origins have no path.
+
+Do not dispatch the workflow while the repository is private. On the free plan that deploy cannot publish.

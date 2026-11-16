@@ -648,6 +648,5 @@ function registerWorker() {
   });
 }
 
-if (config.spreadsheetId) $('#sheetIdLabel').textContent = config.spreadsheetId;
 applyMode(config.ok ? 'signedOut' : 'setup');
 registerWorker();

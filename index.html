@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#596347">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
   <meta name="description" content="CLOSETÉ — My Digital Wardrobe. An installable app for your Google Sheet.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
@@ -540,7 +542,8 @@
       <div class="eyebrow">Not connected</div>
       <h2 id="gateTitle">Google sign-in is not configured</h2>
       <p id="gateLead">This copy has no OAuth client ID. Sign-in cannot start. The wardrobe spreadsheet is not being read or written, and there is no live Google connection.</p>
-      <p>Confirmed spreadsheet <span class="mono" id="sheetIdLabel">1NqubXEZAIJdBOnK9iru0qR4b2jPc8tRPToR2s9mYCng</span>, tab <strong>Wardrobe</strong>. Currency stays <strong>S$</strong>.</p>
+      <p>The configured tab is <strong>Wardrobe</strong>. Currency stays <strong>S$</strong>. The spreadsheet id stays in the app config and is not shown on this page.</p>
+      <p class="photo-help">Search engines are asked not to index this page. That request is best-effort only and is not access protection. Anyone who has the address can still open it. Wardrobe rows stay behind Google sign-in.</p>
       <ol id="setupSteps">
         <li>In Google Cloud, enable the Google Sheets API and the Google Drive API.</li>
         <li>Configure the OAuth consent screen. While it is in testing, add the Google account that owns the wardrobe as a test user.</li>

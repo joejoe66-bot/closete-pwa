@@ -6,9 +6,9 @@ The spreadsheet ID below is the confirmed wardrobe file. It is an identifier, no
 
 | Setting | Value |
 | --- | --- |
-| `SPREADSHEET_ID` | `1NqubXEZAIJdBOnK9iru0qR4b2jPc8tRPToR2s9mYCng` |
+| `SPREADSHEET_ID` | Already set in `public/config.js`. Leave that value. It is not a password, and it is not shown on the page. |
 | `SHEET_NAME` | `Wardrobe` |
-| `SHEET_ID` | `1746053320` |
+| `SHEET_ID` | Already set in `public/config.js` (the confirmed Wardrobe tab). |
 | `CURRENCY` | `S$` |
 | `TIMEZONE` | `Asia/Singapore` |
 | Drive folder | Not known. Name to create: `CLOSETÉ Wardrobe Photos` |

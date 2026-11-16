@@ -135,6 +135,10 @@ describe('service worker and app shell source', () => {
     expect(config).toContain('1NqubXEZAIJdBOnK9iru0qR4b2jPc8tRPToR2s9mYCng');
     expect(config).not.toMatch(/GOCSPX-|ya29\.|client_secret|refresh_token/i);
     expect(index).not.toMatch(/Outfits|Insights|google\.script\.run/);
+    expect(index).toContain('content="noindex, nofollow"');
+    expect(index).not.toContain('1NqubXEZAIJdBOnK9iru0qR4b2jPc8tRPToR2s9mYCng');
+    expect(readFileSync('public/robots.txt', 'utf8')).toMatch(/Disallow:\s*\//);
+    expect(readFileSync('README.md', 'utf8')).not.toContain('1NqubXEZAIJdBOnK9iru0qR4b2jPc8tRPToR2s9mYCng');
     expect(index).toContain('data-view="favorites"');
     expect(index).toContain('capture="environment"');
     expect(index).toContain('%BASE_URL%manifest.webmanifest');
