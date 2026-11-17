@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CLOSETÉ — My Digital Wardrobe</title>
+<!--HEAD_EXTRA-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f1eb;
+  --paper: #fffaf5;
+  --ink: #252720;
+  --muted: #77766e;
+  --olive: #596347;
+  --line: #e9dfd5;
+  --rose: #c9826a;
+  --danger: #a5432d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at 80% 0%, #e7ded0 0, transparent 34%), var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; touch-action: manipulation; transition: transform .2s, box-shadow .2s, opacity .2s; }
+button:disabled { opacity: .55; cursor: default; }
+button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20px #51473520; }
+
+.app { display: grid; grid-template-columns: 190px 1fr; min-height: 100vh; }
+
+.side {
+  padding: 25px 15px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.logo { font: 600 27px 'Playfair Display'; letter-spacing: 1px; padding: 6px 12px 20px; }
+
+.nav { display: grid; gap: 8px; }
+.nav button {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 13px;
+  border-radius: 30px;
+  color: #4c4b43;
+}
+.nav button.active, .primary { background: var(--olive); color: white; }
+.nav .nav-add { display: none; }
+
+.main { padding: 25px 30px 45px; max-width: 1600px; width: 100%; margin: auto; }
+
+.top { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+
+.search {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: #fffaf5dd;
+  border-radius: 30px;
+  padding: 13px 17px;
+  outline-color: var(--olive);
+}
+
+.pill, .filter, .sort {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: 30px;
+  padding: 10px 15px;
+  min-height: 42px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  border-radius: 26px;
+  background: linear-gradient(110deg, #f9f1e9, #e4d7c7);
+  min-height: 250px;
+}
+.hero-copy { padding: 32px; }
+.eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 11px; color: var(--olive); font-weight: 700; }
+.hero h1 { font: clamp(32px, 3vw, 48px)/1.1 'Playfair Display'; margin: 14px 0; }
+.hero p { color: #68645c; }
+.hero-img {
+  background:
+    linear-gradient(90deg, #e9dfd4aa, #e9dfd400),
+    url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1100&q=85') center/cover;
+  min-height: 250px;
+}
+
+.primary { border: 0; border-radius: 30px; padding: 13px 20px; margin-top: 8px; min-height: 44px; }
+.danger { border: 1px solid #e5c2b8; background: #fff3ef; color: var(--danger); border-radius: 30px; padding: 10px 15px; min-height: 42px; }
+.danger.confirm { background: var(--danger); color: white; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; margin: 16px 0 26px; }
+.stat, .card {
+  background: #fffaf5e8;
+  border: 1px solid #eee4db;
+  border-radius: 18px;
+  box-shadow: 0 5px 18px #54442b08;
+}
+.stat { padding: 17px; }
+.stat small { color: var(--muted); }
+.stat strong { display: block; font: 600 25px 'Playfair Display'; margin: 7px 0; }
+
+.section-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 25px 0 15px; }
+.section-head h2 { font: 600 29px 'Playfair Display'; margin: 0; }
+.link { border: 0; background: none; color: var(--olive); font-weight: 600; padding: 8px 4px; }
+
+.toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.filters { display: flex; gap: 7px; flex-wrap: wrap; }
+.filter.active { background: var(--olive); color: white; border-color: var(--olive); }
+
+.grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 13px; }
+
+.card { overflow: hidden; animation: rise .4s both; transition: transform .25s, box-shadow .25s; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 14px 32px #5147351b; }
+
+.photo { height: 190px; background: #eee5db; position: relative; overflow: hidden; }
+.photo-open { all: unset; display: block; width: 100%; height: 100%; cursor: zoom-in; }
+.photo img.main-img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; display: block; }
+.card:hover .photo img.main-img { transform: scale(1.05); }
+.placeholder { height: 100%; display: grid; place-items: center; font-size: 48px; color: #a69b8a; }
+
+.heart {
+  position: absolute; right: 9px; top: 9px;
+  border: 0; background: #fffaf0e8; border-radius: 50%;
+  width: 36px; height: 36px; font-size: 19px; color: var(--rose);
+}
+.label-badge {
+  position: absolute; left: 9px; bottom: 9px;
+  width: 40px; height: 40px; border-radius: 10px; overflow: hidden;
+  border: 2px solid #fffaf5; box-shadow: 0 3px 10px #0002; background: #fff;
+  pointer-events: none;
+}
+.label-badge img { width: 100%; height: 100%; object-fit: cover; }
+
+.details { padding: 12px; }
+.details h3 { font-size: 14px; margin: 0 0 5px; }
+.details p { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+.tag { display: inline-block; border-radius: 20px; background: #eee6dc; padding: 5px 9px; font-size: 11px; margin: 0 4px 4px 0; }
+.price { font-weight: 600; margin-top: 7px; font-size: 13px; }
+.wear { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.card-actions { display: flex; gap: 6px; margin-top: 12px; }
+.card-actions .filter { padding: 8px 12px; min-height: 36px; font-size: 12px; flex: 1; }
+
+.empty { grid-column: 1/-1; text-align: center; padding: 55px 15px; color: var(--muted); }
+
+.banner {
+  display: none; margin-bottom: 14px; padding: 10px 14px; border-radius: 14px;
+  background: #f3e6d4; color: #6b5537; font-size: 13px;
+}
+.banner.show { display: block; }
+
+.modal-back {
+  position: fixed; inset: 0; background: #211e1b75;
+  display: none; align-items: center; justify-content: center;
+  padding: 20px; z-index: 10; backdrop-filter: blur(5px);
+}
+.modal-back.show { display: flex; animation: fade .2s; }
+
+.modal {
+  width: min(620px, 100%); max-height: 92vh; overflow: auto;
+  background: var(--paper); border-radius: 25px; padding: 25px;
+  box-shadow: 0 25px 80px #0003; animation: rise .25s;
+}
+.modal h2 { font: 600 29px 'Playfair Display'; margin: 0 0 20px; }
+.modal p.help { color: var(--muted); font-size: 13px; line-height: 1.5; margin: -8px 0 16px; }
+
+.form { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.field { display: grid; gap: 6px; font-size: 12px; color: var(--muted); }
+.field input, .field select, .field textarea {
+  border: 1px solid var(--line); background: white; border-radius: 12px;
+  padding: 12px; color: var(--ink); width: 100%; outline-color: #9aa287;
+}
+
+.photo-control { display: flex; gap: 14px; align-items: center; }
+.photo-preview {
+  width: 112px; height: 112px; flex: 0 0 112px; border-radius: 14px;
+  background: #eee5db; overflow: hidden; display: grid; place-items: center;
+  color: #8f887d; text-align: center; font-size: 12px; padding: 4px;
+}
+.photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+.photo-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+.photo-buttons .pill { min-height: 40px; padding: 8px 13px; font-size: 13px; }
+.photo-help { font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.45; }
+.photo-url { margin-top: 10px; }
+
+.wide { grid-column: 1/-1; }
+
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; align-items: center; }
+.modal-actions .spacer { flex: 1; }
+
+.viewer { width: min(860px, 100%); }
+.viewer-photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.viewer-photos figure { margin: 0; }
+.viewer-photos img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 16px; background: #eee5db; }
+.viewer-photos figcaption { font-size: 12px; color: var(--muted); margin-top: 6px; text-align: center; }
+
+.install-steps { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; padding-left: 18px; }
+
+.toast {
+  position: fixed; bottom: 25px; left: 50%;
+  transform: translate(-50%, 20px); opacity: 0;
+  background: #252720; color: white; padding: 13px 20px; border-radius: 30px;
+  transition: .25s; z-index: 20; pointer-events: none; max-width: calc(100% - 30px); text-align: center;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+.loading-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--olive); animation: pulse 1s infinite alternate; margin-right: 8px; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse { from { opacity: .3; } to { opacity: 1; } }
+
+/* iPad and smaller desktop */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .app { grid-template-columns: 145px minmax(0, 1fr); }
+  .side { padding: 20px 10px; }
+  .main { padding: 20px; }
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px; }
+  .photo { height: clamp(150px, 22vw, 220px); }
+  .hero-copy { padding: 25px; }
+  .stats { gap: 9px; }
+  .stat { padding: 13px; }
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .app { display: block; }
+  .side {
+    position: fixed; z-index: 8; bottom: 0; left: 0; right: 0;
+    background: #fffaf5f2; backdrop-filter: blur(16px);
+    border-top: 1px solid var(--line);
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+    display: block;
+  }
+  .logo { display: none; }
+  .nav { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; }
+  .nav button { padding: 9px 2px; border-radius: 13px; text-align: center; font-size: 11px; min-height: 52px; }
+  .nav .nav-add { display: block; }
+  .main { padding: calc(12px + env(safe-area-inset-top)) 12px 24px; }
+  .top { gap: 8px; margin-bottom: 14px; }
+  .search { padding: 12px; font-size: 16px; }
+  #refresh, #addTop { display: none; }
+  .hero { grid-template-columns: 1fr; min-height: 0; border-radius: 22px; }
+  .hero-copy { padding: 23px 20px 18px; }
+  .hero h1 { font-size: clamp(31px, 8vw, 42px); margin: 11px 0; }
+  .hero p { font-size: 14px; line-height: 1.5; }
+  .hero-img { min-height: 130px; max-height: 160px; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin: 12px 0 22px; }
+  .stat { padding: 13px; border-radius: 16px; }
+  .stat strong { font-size: 22px; }
+  .stat small { font-size: 11px; }
+  .section-head { margin: 18px 0 12px; }
+  .section-head h2 { font-size: 23px; }
+  .sort { font-size: 13px; padding: 8px 12px; min-height: 38px; }
+  .toolbar { width: 100%; }
+  .filters { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding: 2px 1px 7px; scrollbar-width: none; }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter { white-space: nowrap; flex: 0 0 auto; font-size: 12px; padding: 9px 13px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .card { border-radius: 16px; }
+  .photo { height: clamp(135px, 43vw, 205px); }
+  .details { padding: 10px; }
+  .details h3 { font-size: 13px; line-height: 1.4; }
+  .details p { font-size: 11px; }
+  .modal-back { align-items: flex-end; padding: 0; }
+  .modal {
+    width: 100%; max-height: 92dvh; border-radius: 24px 24px 0 0;
+    padding: 22px 18px calc(20px + env(safe-area-inset-bottom));
+  }
+  .form { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .photo-control { align-items: flex-start; }
+  .photo-preview { width: 96px; height: 96px; flex-basis: 96px; }
+  .field input, .field select, .field textarea { font-size: 16px; padding: 12px; }
+  .modal-actions { position: sticky; bottom: 0; background: var(--paper); padding-top: 10px; flex-wrap: wrap; }
+  .modal-actions button { flex: 1; }
+  .modal-actions .spacer { display: none; }
+}
+
+@media (max-width: 380px) {
+  .main { padding-left: 9px; padding-right: 9px; }
+  .photo { height: 132px; }
+  .form { grid-template-columns: 1fr; }
+  .wide { grid-column: auto; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="logo">CLOSETÉ</div>
+    <nav class="nav">
+      <button class="active" data-view="overview">⌂ Overview</button>
+      <button data-view="wardrobe">♧ Wardrobe</button>
+      <button class="nav-add" data-action="add">＋ Add</button>
+      <button data-action="settings">⚙ Settings</button>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="banner" id="banner"></div>
+
+    <div class="top">
+      <input class="search" id="search" type="search" placeholder="⌕ Search your wardrobe..." autocomplete="off">
+      <button class="pill" id="refresh" title="Refresh">↻</button>
+      <button class="pill" id="addTop" data-action="add">＋ Add</button>
+    </div>
+
+    <div id="overview">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Your personal wardrobe</div>
+          <h1>Your wardrobe,<br>reimagined. ♡</h1>
+          <p>Every piece you own, all in one place.</p>
+          <button class="primary" data-action="add">＋ Add a piece</button>
+        </div>
+        <div class="hero-img"></div>
+      </section>
+
+      <section class="stats">
+        <div class="stat"><small>♧ Pieces</small><strong id="count">—</strong><small>In your collection</small></div>
+        <div class="stat"><small>▦ Categories</small><strong id="categories">—</strong><small>Different styles</small></div>
+        <div class="stat"><small>◎ Total value</small><strong id="value">—</strong><small>Recorded prices</small></div>
+        <div class="stat"><small>♥ Favorites</small><strong id="favCount">—</strong><small>Pieces you love</small></div>
+      </section>
+
+      <div class="section-head">
+        <h2>Recently added</h2>
+        <button class="link" data-view="wardrobe">See all →</button>
+      </div>
+      <div class="grid" id="recent"></div>
+    </div>
+
+    <div id="wardrobe" hidden>
+      <div class="section-head">
+        <h2>Your collection</h2>
+        <div class="toolbar">
+          <select class="sort" id="sort" aria-label="Sort">
+            <option value="newest">Newest first</option>
+            <option value="mostWorn">Most worn</option>
+            <option value="leastWorn">Least worn</option>
+            <option value="recentWorn">Recently worn</option>
+            <option value="priceHigh">Price: high → low</option>
+            <option value="priceLow">Price: low → high</option>
+            <option value="name">Name A → Z</option>
+          </select>
+        </div>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="grid" id="items" style="margin-top:12px"></div>
+    </div>
+  </main>
+</div>
+
+<!-- Add / edit -->
+<div class="modal-back" id="modalBack">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">Add a piece</h2>
+    <form id="itemForm" novalidate>
+      <input type="hidden" name="id">
+      <div class="form">
+        <label class="field wide">Item name *
+          <input name="name" required placeholder="e.g. Linen shirt" autocomplete="off">
+        </label>
+        <label class="field">Category
+          <select name="category">
+            <option>Tops</option><option>Bottoms</option>
+            <option>Outerwear</option><option>Shoes</option>
+            <option>Accessories</option><option>Dresses</option>
+            <option>Sportswear</option><option>Other</option>
+          </select>
+        </label>
+        <label class="field">Brand<input name="brand" placeholder="e.g. Uniqlo" autocomplete="off" list="brandList"></label>
+        <datalist id="brandList"></datalist>
+        <label class="field">Color<input name="color" placeholder="e.g. Olive green" autocomplete="off"></label>
+        <label class="field">Size<input name="size" placeholder="e.g. M / 32" autocomplete="off"></label>
+        <label class="field">Price<input name="price" type="number" min="0" step=".01" inputmode="decimal" placeholder="0.00"></label>
+        <label class="field">Purchase date<input name="purchaseDate" type="date"></label>
+
+        <div class="field wide" data-photo="main">
+          <span>Photo of the piece</span>
+          <div class="photo-control">
+            <div class="photo-preview"><span>No photo</span></div>
+            <div>
+              <div class="photo-buttons">
+                <button type="button" class="pill" data-photo-act="camera">📷 Take photo</button>
+                <button type="button" class="pill" data-photo-act="import">＋ Import</button>
+                <button type="button" class="pill" data-photo-act="remove">Remove</button>
+              </div>
+              <div class="photo-help">Saved to Google Drive.</div>
+            </div>
+          </div>
+          <input class="photo-url" name="imageUrl" type="url" placeholder="Or paste an image URL (optional)">
+        </div>
+
+        <div class="field wide" data-photo="brand">
+          <span>Brand / label photo</span>
+          <div class="photo-control">
+            <div class="photo-preview"><span>No label photo</span></div>
+            <div>
+              <div class="photo-buttons">
+                <button type="button" class="pill" data-photo-act="camera">📷 Take photo</button>
+                <button type="button" class="pill" data-photo-act="import">＋ Import</button>
+                <button type="button" class="pill" data-photo-act="remove">Remove</button>
+              </div>
+              <div class="photo-help">Snap the brand tag, size or care label so you can find it again.</div>
+            </div>
+          </div>
+        </div>
+
+        <label class="field wide">Notes<textarea name="notes" rows="2" placeholder="Fit, material, storage…"></textarea></label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="danger" id="deleteBtn" hidden>Delete</button>
+        <span class="spacer"></span>
+        <button type="button" class="pill" id="cancel">Cancel</button>
+        <button type="submit" class="primary" id="saveBtn">Save piece</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Photo viewer -->
+<div class="modal-back" id="viewerBack">
+  <div class="modal viewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+    <h2 id="viewerTitle"></h2>
+    <div class="viewer-photos" id="viewerPhotos"></div>
+    <div class="modal-actions">
+      <button type="button" class="pill" id="viewerEdit">Edit</button>
+      <button type="button" class="primary" id="viewerClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Connect / settings -->
+<div class="modal-back" id="settingsBack">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <h2 id="settingsTitle">Connect your wardrobe</h2>
+    <p class="help" id="settingsHelp">Enter the password from <b>setupApiToken</b> in your Apps Script project.</p>
+    <form id="settingsForm" novalidate>
+      <div class="form">
+        <label class="field wide" id="urlField">Apps Script web app URL
+          <input name="url" type="url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off">
+        </label>
+        <label class="field wide">Password
+          <input name="token" type="password" autocomplete="current-password" placeholder="Password">
+        </label>
+      </div>
+      <div class="field wide" id="installBox" style="margin-top:18px" hidden>
+        <span>Install on your phone</span>
+        <ol class="install-steps">
+          <li><b>iPhone / iPad:</b> open this page in Safari → Share → <b>Add to Home Screen</b>.</li>
+          <li><b>Android:</b> Chrome menu ⋮ → <b>Install app</b>, or tap the button below.</li>
+        </ol>
+        <button type="button" class="pill" id="installBtn" hidden style="margin-top:8px">⬇ Install CLOSETÉ</button>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="danger" id="forgetBtn" hidden>Disconnect</button>
+        <span class="spacer"></span>
+        <button type="button" class="pill" id="settingsCancel" hidden>Cancel</button>
+        <button type="submit" class="primary" id="connectBtn">Connect</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<input type="file" id="cameraFile" accept="image/*" capture="environment" hidden>
+<input type="file" id="importFile" accept="image/*" hidden>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------- setup ---------------- */
+
+  const IS_APPS_SCRIPT = !!(window.google && google.script && google.script.run);
+  const CATEGORIES = ['Tops', 'Bottoms', 'Outerwear', 'Shoes', 'Accessories', 'Dresses', 'Sportswear', 'Other'];
+  const STORE = {
+    url: 'closete.apiUrl',
+    token: 'closete.token',
+    items: 'closete.items'
+  };
+
+  const memoryStore = {};
+  const storage = {
+    get(key) {
+      try { const v = localStorage.getItem(key); return v == null ? memoryStore[key] || '' : v; }
+      catch (e) { return memoryStore[key] || ''; }
+    },
+    set(key, value) {
+      memoryStore[key] = value;
+      try { localStorage.setItem(key, value); } catch (e) {}
+    },
+    remove(key) {
+      delete memoryStore[key];
+      try { localStorage.removeItem(key); } catch (e) {}
+    }
+  };
+
+  const state = {
+    items: [],
+    view: 'overview',
+    filter: 'All',
+    sort: 'newest',
+    loaded: false,
+    offline: false
+  };
+
+  const photoState = {
+    main: { dataUrl: '', clear: false, existing: '' },
+    brand: { dataUrl: '', clear: false, existing: '' }
+  };
+  let photoTarget = 'main';
+  let editingId = '';
+  let saving = false;
+  let deleteArmed = false;
+  let deferredInstall = null;
+
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+
+  /* ---------------- helpers ---------------- */
+
+  let toastTimer;
+  function toast(message) {
+    const el = $('#toast');
+    el.textContent = message;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+  }
+
+  function money(amount, currency) {
+    return (currency || 'S$') + ' ' + Number(amount || 0).toLocaleString('en-SG', {
+      minimumFractionDigits: 2, maximumFractionDigits: 2
+    });
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[c]);
+  }
+
+  // Older rows used drive.google.com/uc?export=view links, which many browsers no longer show.
+  function displayUrl(url) {
+    const text = String(url || '');
+    const m = text.match(/^https:\/\/drive\.google\.com\/(?:uc|open|thumbnail)\?(?:.*&)?id=([\w-]{20,})/)
+      || text.match(/^https:\/\/drive\.google\.com\/file\/d\/([\w-]{20,})/);
+    return m ? 'https://lh3.googleusercontent.com/d/' + m[1] : text;
+  }
+
+  function daysAgo(ymd) {
+    if (!ymd) return '';
+    const then = new Date(ymd + 'T00:00:00');
+    if (isNaN(then)) return ymd;
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const diff = Math.round((today - then) / 86400000);
+    if (diff <= 0) return 'today';
+    if (diff === 1) return 'yesterday';
+    if (diff < 30) return diff + ' days ago';
+    return ymd;
+  }
+
+  function settings() {
+    return { url: storage.get(STORE.url).trim(), token: storage.get(STORE.token).trim() };
+  }
+
+  function isConfigured() {
+    const s = settings();
+    return !!s.token && (IS_APPS_SCRIPT || !!s.url);
+  }
+
+  /* ---------------- API ---------------- */
+
+  function unwrap(response) {
+    if (!response || typeof response !== 'object') throw new Error('Unexpected response from Apps Script.');
+    if (!response.ok) {
+      const error = new Error(response.error || 'Request failed.');
+      error.code = response.code || '';
+      throw error;
+    }
+    return response.data;
+  }
+
+  function api(action, payload, override) {
+    const s = override || settings();
+    const request = { token: s.token, action: action, payload: payload || {} };
+
+    if (IS_APPS_SCRIPT) {
+      return new Promise((resolve, reject) => {
+        google.script.run
+          .withSuccessHandler(r => { try { resolve(unwrap(r)); } catch (e) { reject(e); } })
+          .withFailureHandler(e => reject(e instanceof Error ? e : new Error(String(e && e.message || e))))
+          .api(request);
+      });
+    }
+
+    if (!navigator.onLine) {
+      const e = new Error('You are offline.'); e.code = 'OFFLINE';
+      return Promise.reject(e);
+    }
+
+    // text/plain keeps this a "simple" request, so Apps Script needs no CORS preflight.
+    return fetch(s.url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(request),
+      redirect: 'follow'
+    })
+      .catch(() => {
+        const e = new Error('Could not reach Apps Script. Check the URL and your connection.');
+        e.code = 'NETWORK';
+        throw e;
+      })
+      .then(r => r.text())
+      .then(text => {
+        let json;
+        try { json = JSON.parse(text); }
+        catch (e) {
+          const err = new Error('Apps Script did not return data. In Deploy → Manage deployments, set "Who has access" to "Anyone" and use the /exec URL.');
+          err.code = 'DEPLOY';
+          throw err;
+        }
+        return unwrap(json);
+      });
+  }
+
+  /* ---------------- data ---------------- */
+
+  function cacheItems() {
+    try { storage.set(STORE.items, JSON.stringify(state.items)); } catch (e) {}
+  }
+
+  function loadCachedItems() {
+    try {
+      const cached = JSON.parse(storage.get(STORE.items) || '[]');
+      if (Array.isArray(cached)) state.items = cached;
+    } catch (e) {}
+  }
+
+  function setBanner(text) {
+    const b = $('#banner');
+    b.textContent = text || '';
+    b.classList.toggle('show', !!text);
+  }
+
+  function load(quiet) {
+    if (!isConfigured()) { openSettings(true); return Promise.resolve(); }
+    if (!quiet && !state.items.length) renderLoading();
+    return api('getItems')
+      .then(items => {
+        state.items = (items || []).map(normalize);
+        state.loaded = true;
+        state.offline = false;
+        setBanner('');
+        cacheItems();
+        render();
+      })
+      .catch(error => {
+        if (error.code === 'AUTH' || error.code === 'NO_TOKEN' || error.code === 'DEPLOY') {
+          openSettings(true, error.message);
+          return;
+        }
+        if (state.items.length) {
+          state.offline = true;
+          setBanner('Offline — showing your last saved copy. Changes need a connection.');
+          render();
+        } else {
+          renderEmpty('Could not load your wardrobe. ' + error.message);
+        }
+      });
+  }
+
+  function normalize(item) {
+    return Object.assign({}, item, {
+      id: String(item.id || ''),
+      price: Number(item.price || 0),
+      wearCount: Number(item.wearCount || 0),
+      favorite: item.favorite === true || String(item.favorite).toLowerCase() === 'true',
+      imageUrl: displayUrl(item.imageUrl),
+      brandImageUrl: displayUrl(item.brandImageUrl)
+    });
+  }
+
+  function findItem(id) {
+    return state.items.find(x => x.id === id);
+  }
+
+  function upsertItem(item) {
+    const index = state.items.findIndex(x => x.id === item.id);
+    if (index === -1) state.items.unshift(item);
+    else state.items[index] = item;
+    cacheItems();
+  }
+
+  /* ---------------- render ---------------- */
+
+  function renderLoading() {
+    const html = '<div class="empty"><span class="loading-dot"></span>Loading your wardrobe…</div>';
+    $('#recent').innerHTML = html;
+    $('#items').innerHTML = html;
+  }
+
+  function renderEmpty(message) {
+    const html = '<div class="empty">' + escapeHtml(message) + '</div>';
+    $('#recent').innerHTML = html;
+    $('#items').innerHTML = html;
+  }
+
+  function sortItems(list) {
+    const by = {
+      newest: () => 0,
+      mostWorn: (a, b) => b.wearCount - a.wearCount,
+      leastWorn: (a, b) => a.wearCount - b.wearCount,
+      recentWorn: (a, b) => String(b.lastWorn || '').localeCompare(String(a.lastWorn || '')),
+      priceHigh: (a, b) => b.price - a.price,
+      priceLow: (a, b) => a.price - b.price,
+      name: (a, b) => a.name.localeCompare(b.name)
+    }[state.sort] || (() => 0);
+    return list.slice().sort(by);
+  }
+
+  function filteredItems() {
+    const query = $('#search').value.trim().toLowerCase();
+    return sortItems(state.items.filter(item =>
+      (state.filter === 'All'
+        || (state.filter === 'Favorites' ? item.favorite : item.category === state.filter))
+      && [item.name, item.brand, item.color, item.category, item.size, item.notes]
+        .join(' ').toLowerCase().includes(query)
+    ));
+  }
+
+  function cardHtml(item, index) {
+    const wear = item.wearCount
+      ? 'Worn ' + item.wearCount + '× · last ' + escapeHtml(daysAgo(item.lastWorn))
+      : 'Not worn yet';
+    const photo = item.imageUrl
+      ? '<img class="main-img" loading="lazy" alt="" src="' + escapeHtml(item.imageUrl) + '" onerror="this.style.display=\'none\'">'
+      : '<div class="placeholder">♧</div>';
+    const badge = item.brandImageUrl
+      ? '<span class="label-badge"><img loading="lazy" alt="" src="' + escapeHtml(item.brandImageUrl) + '"></span>'
+      : '';
+    return '<article class="card" style="animation-delay:' + Math.min(index, 10) * 35 + 'ms">'
+      + '<div class="photo">'
+      +   '<button class="photo-open" data-open="' + escapeHtml(item.id) + '" aria-label="View photos">' + photo + '</button>'
+      +   badge
+      +   '<button class="heart" data-fav="' + escapeHtml(item.id) + '" aria-label="Favorite">' + (item.favorite ? '♥' : '♡') + '</button>'
+      + '</div>'
+      + '<div class="details">'
+      +   '<h3>' + escapeHtml(item.name) + '</h3>'
+      +   '<p>' + escapeHtml(item.brand || 'No brand') + (item.color ? ' · ' + escapeHtml(item.color) : '') + '</p>'
+      +   '<span class="tag">' + escapeHtml(item.category || 'Other') + '</span>'
+      +   (item.size ? '<span class="tag">' + escapeHtml(item.size) + '</span>' : '')
+      +   '<div class="price">' + money(item.price, item.currency) + '</div>'
+      +   '<div class="wear">' + wear + '</div>'
+      +   '<div class="card-actions">'
+      +     '<button class="filter" data-edit="' + escapeHtml(item.id) + '">Edit</button>'
+      +     '<button class="filter" data-worn="' + escapeHtml(item.id) + '">Wore it</button>'
+      +   '</div>'
+      + '</div>'
+      + '</article>';
+  }
+
+  function render() {
+    const items = state.items;
+
+    $('#count').textContent = items.length;
+    $('#categories').textContent = new Set(items.map(x => x.category).filter(Boolean)).size;
+    $('#value').textContent = money(items.reduce((sum, x) => sum + Number(x.price || 0), 0));
+    $('#favCount').textContent = items.filter(x => x.favorite).length;
+
+    $('#overview').hidden = state.view !== 'overview';
+    $('#wardrobe').hidden = state.view !== 'wardrobe';
+    $$('.nav [data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === state.view));
+
+    const emptyMsg = '<div class="empty">Your wardrobe is waiting for its first piece. ✨<br><br>Tap ＋ Add to get started.</div>';
+
+    const query = $('#search').value.trim();
+    if (state.view === 'overview' && query) {
+      // Searching from the overview jumps to the full wardrobe.
+      state.view = 'wardrobe';
+      return render();
+    }
+
+    $('#recent').innerHTML = items.length ? items.slice(0, 10).map(cardHtml).join('') : emptyMsg;
+
+    const chips = ['All', 'Favorites'].concat(CATEGORIES);
+    $('#filters').innerHTML = chips.map(c =>
+      '<button class="filter ' + (state.filter === c ? 'active' : '') + '" data-cat="' + c + '">'
+      + (c === 'All' ? 'All pieces' : c === 'Favorites' ? '♥ Favorites' : c) + '</button>'
+    ).join('');
+
+    const shown = filteredItems();
+    $('#items').innerHTML = shown.length
+      ? shown.map(cardHtml).join('')
+      : (items.length ? '<div class="empty">No pieces match.</div>' : emptyMsg);
+
+    $('#brandList').innerHTML = Array.from(new Set(items.map(x => x.brand).filter(Boolean)))
+      .sort().map(b => '<option value="' + escapeHtml(b) + '">').join('');
+  }
+
+  function setView(view) {
+    state.view = view;
+    if (view === 'overview') $('#search').value = '';
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ---------------- photos ---------------- */
+
+  function photoBox(kind) { return document.querySelector('[data-photo="' + kind + '"]'); }
+
+  function showPhoto(kind, source) {
+    const preview = photoBox(kind).querySelector('.photo-preview');
+    preview.innerHTML = source
+      ? '<img src="' + escapeHtml(source) + '" alt="">'
+      : '<span>' + (kind === 'main' ? 'No photo' : 'No label photo') + '</span>';
+  }
+
+  function preparePhoto(file, kind) {
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { toast('Please choose an image file.'); return; }
+    const objectUrl = URL.createObjectURL(file);
+    const image = new Image();
+    image.onload = () => {
+      const maxEdge = kind === 'main' ? 1400 : 1000;
+      const scale = Math.min(1, maxEdge / Math.max(image.width, image.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(image.width * scale);
+      canvas.height = Math.round(image.height * scale);
+      canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(objectUrl);
+      photoState[kind].dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+      photoState[kind].clear = false;
+      if (kind === 'main') $('#itemForm').elements.imageUrl.value = '';
+      showPhoto(kind, photoState[kind].dataUrl);
+    };
+    image.onerror = () => { URL.revokeObjectURL(objectUrl); toast('Could not read that image.'); };
+    image.src = objectUrl;
+  }
+
+  ['main', 'brand'].forEach(kind => {
+    photoBox(kind).addEventListener('click', event => {
+      const btn = event.target.closest('[data-photo-act]');
+      if (!btn) return;
+      const act = btn.dataset.photoAct;
+      photoTarget = kind;
+      if (act === 'camera') $('#cameraFile').click();
+      if (act === 'import') $('#importFile').click();
+      if (act === 'remove') {
+        photoState[kind].dataUrl = '';
+        photoState[kind].clear = true;
+        if (kind === 'main') $('#itemForm').elements.imageUrl.value = '';
+        showPhoto(kind, '');
+      }
+    });
+  });
+
+  ['#cameraFile', '#importFile'].forEach(sel => {
+    $(sel).addEventListener('change', event => {
+      preparePhoto(event.target.files[0], photoTarget);
+      event.target.value = '';
+    });
+  });
+
+  $('#itemForm').elements.imageUrl.addEventListener('input', event => {
+    const url = event.target.value.trim();
+    if (url) {
+      photoState.main.dataUrl = '';
+      photoState.main.clear = false;
+      showPhoto('main', displayUrl(url));
+    }
+  });
+
+  /* ---------------- modal: add / edit ---------------- */
+
+  function showModal(id) { $(id).classList.add('show'); document.body.style.overflow = 'hidden'; }
+  function hideModal(id) {
+    $(id).classList.remove('show');
+    if (!$$('.modal-back.show').length) document.body.style.overflow = '';
+  }
+
+  function openItemModal(item) {
+    if (state.offline) { toast('You are offline — changes need a connection.'); return; }
+    const form = $('#itemForm');
+    form.reset();
+    // reset() does not clear a hidden input once script has set it, so clear it by hand.
+    form.elements.id.value = '';
+    editingId = item ? item.id : '';
+    deleteArmed = false;
+
+    ['main', 'brand'].forEach(k => { photoState[k] = { dataUrl: '', clear: false, existing: '' }; });
+
+    if (item) {
+      ['id', 'name', 'category', 'brand', 'color', 'size', 'price', 'purchaseDate', 'notes'].forEach(key => {
+        if (form.elements[key]) form.elements[key].value = item[key] == null ? '' : item[key];
+      });
+      if (item.price === 0) form.elements.price.value = '';
+      photoState.main.existing = item.imageUrl || '';
+      photoState.brand.existing = item.brandImageUrl || '';
+    }
+
+    showPhoto('main', photoState.main.existing);
+    showPhoto('brand', photoState.brand.existing);
+
+    $('#modalTitle').textContent = item ? 'Edit piece' : 'Add a piece';
+    $('#deleteBtn').hidden = !item;
+    $('#deleteBtn').textContent = 'Delete';
+    $('#deleteBtn').classList.remove('confirm');
+    setSaving(false);
+    showModal('#modalBack');
+    if (!item) setTimeout(() => form.elements.name.focus(), 50);
+  }
+
+  function closeItemModal() {
+    if (saving) return;
+    hideModal('#modalBack');
+  }
+
+  function setSaving(on, label) {
+    saving = on;
+    $('#saveBtn').disabled = on;
+    $('#cancel').disabled = on;
+    $('#deleteBtn').disabled = on;
+    $('#saveBtn').textContent = on ? (label || 'Saving…') : 'Save piece';
+  }
+
+  $('#itemForm').addEventListener('submit', event => {
+    event.preventDefault();
+    if (saving) return;
+    const form = event.target;
+    const name = form.elements.name.value.trim();
+    if (!name) { toast('Please enter an item name.'); form.elements.name.focus(); return; }
+
+    const item = {
+      id: editingId,
+      name: name,
+      category: form.elements.category.value,
+      brand: form.elements.brand.value.trim(),
+      color: form.elements.color.value.trim(),
+      size: form.elements.size.value.trim(),
+      price: Number(form.elements.price.value || 0),
+      purchaseDate: form.elements.purchaseDate.value,
+      notes: form.elements.notes.value.trim(),
+      imageUrl: form.elements.imageUrl.value.trim(),
+      imageDataUrl: photoState.main.dataUrl,
+      clearImage: photoState.main.clear,
+      brandImageDataUrl: photoState.brand.dataUrl,
+      clearBrandImage: photoState.brand.clear
+    };
+
+    const uploading = item.imageDataUrl || item.brandImageDataUrl;
+    setSaving(true, uploading ? 'Uploading photo…' : 'Saving…');
+
+    api('saveItem', { item: item })
+      .then(result => {
+        upsertItem(normalize(result.item));
+        setSaving(false);
+        hideModal('#modalBack');
+        render();
+        toast('Piece saved to your wardrobe ✨');
+      })
+      .catch(error => {
+        setSaving(false);
+        toast(error.message || 'Save failed. Please try again.');
+      });
+  });
+
+  $('#deleteBtn').addEventListener('click', () => {
+    if (!editingId || saving) return;
+    if (!deleteArmed) {
+      deleteArmed = true;
+      $('#deleteBtn').textContent = 'Tap again to delete';
+      $('#deleteBtn').classList.add('confirm');
+      setTimeout(() => {
+        deleteArmed = false;
+        $('#deleteBtn').textContent = 'Delete';
+        $('#deleteBtn').classList.remove('confirm');
+      }, 3500);
+      return;
+    }
+    const id = editingId;
+    setSaving(true, 'Deleting…');
+    api('deleteItem', { id: id })
+      .then(() => {
+        state.items = state.items.filter(x => x.id !== id);
+        cacheItems();
+        setSaving(false);
+        hideModal('#modalBack');
+        render();
+        toast('Piece deleted');
+      })
+      .catch(error => {
+        setSaving(false);
+        toast(error.message || 'Could not delete.');
+      });
+  });
+
+  $('#cancel').addEventListener('click', closeItemModal);
+  $('#modalBack').addEventListener('click', e => { if (e.target === $('#modalBack')) closeItemModal(); });
+
+  /* ---------------- photo viewer ---------------- */
+
+  let viewingId = '';
+  function openViewer(item) {
+    viewingId = item.id;
+    $('#viewerTitle').textContent = item.name;
+    const photos = [];
+    if (item.imageUrl) photos.push(['Piece', item.imageUrl]);
+    if (item.brandImageUrl) photos.push(['Brand / label', item.brandImageUrl]);
+    $('#viewerPhotos').innerHTML = photos.length
+      ? photos.map(p => '<figure><img alt="" src="' + escapeHtml(p[1]) + '"><figcaption>' + p[0] + '</figcaption></figure>').join('')
+      : '<div class="empty">No photos yet. Tap Edit to add one.</div>';
+    showModal('#viewerBack');
+  }
+  $('#viewerClose').addEventListener('click', () => hideModal('#viewerBack'));
+  $('#viewerBack').addEventListener('click', e => { if (e.target === $('#viewerBack')) hideModal('#viewerBack'); });
+  $('#viewerEdit').addEventListener('click', () => {
+    hideModal('#viewerBack');
+    const item = findItem(viewingId);
+    if (item) openItemModal(item);
+  });
+
+  /* ---------------- settings / connect ---------------- */
+
+  function openSettings(required, message) {
+    const s = settings();
+    const form = $('#settingsForm');
+    form.elements.url.value = s.url;
+    form.elements.token.value = s.token;
+    $('#urlField').hidden = IS_APPS_SCRIPT;
+    $('#installBox').hidden = IS_APPS_SCRIPT;
+    $('#installBtn').hidden = !deferredInstall;
+    $('#settingsTitle').textContent = required ? 'Connect your wardrobe' : 'Settings';
+    $('#settingsHelp').innerHTML = message
+      ? escapeHtml(message)
+      : (IS_APPS_SCRIPT
+        ? 'Enter the password from <b>setupApiToken</b> in your Apps Script project.'
+        : 'Paste your Apps Script <b>/exec</b> URL and the password from <b>setupApiToken</b>. They stay on this device only.');
+    $('#settingsCancel').hidden = !!required;
+    $('#forgetBtn').hidden = !!required || !isConfigured();
+    $('#connectBtn').disabled = false;
+    $('#connectBtn').textContent = 'Connect';
+    showModal('#settingsBack');
+  }
+
+  $('#settingsForm').addEventListener('submit', event => {
+    event.preventDefault();
+    const form = event.target;
+    const next = { url: form.elements.url.value.trim(), token: form.elements.token.value.trim() };
+    if (!IS_APPS_SCRIPT && !/^https:\/\/script\.google(usercontent)?\.com\/.+/.test(next.url)) {
+      toast('Paste the Apps Script web app URL (ends with /exec).');
+      return;
+    }
+    if (!next.token) { toast('Enter your password.'); return; }
+    $('#connectBtn').disabled = true;
+    $('#connectBtn').textContent = 'Checking…';
+    api('ping', {}, next)
+      .then(() => {
+        if (!IS_APPS_SCRIPT) storage.set(STORE.url, next.url);
+        storage.set(STORE.token, next.token);
+        hideModal('#settingsBack');
+        toast('Connected ✨');
+        return load();
+      })
+      .catch(error => {
+        $('#connectBtn').disabled = false;
+        $('#connectBtn').textContent = 'Connect';
+        $('#settingsHelp').textContent = error.message;
+      });
+  });
+
+  $('#settingsCancel').addEventListener('click', () => hideModal('#settingsBack'));
+  $('#forgetBtn').addEventListener('click', () => {
+    storage.remove(STORE.token);
+    storage.remove(STORE.items);
+    state.items = [];
+    render();
+    openSettings(true);
+  });
+
+  window.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault();
+    deferredInstall = event;
+    $('#installBtn').hidden = false;
+  });
+  $('#installBtn').addEventListener('click', () => {
+    if (!deferredInstall) return;
+    deferredInstall.prompt();
+    deferredInstall.userChoice.finally(() => { deferredInstall = null; $('#installBtn').hidden = true; });
+  });
+
+  /* ---------------- global clicks ---------------- */
+
+  const busy = new Set();
+
+  document.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    const d = button.dataset;
+
+    if (d.view) setView(d.view);
+    if (d.action === 'add') openItemModal(null);
+    if (d.action === 'settings') openSettings(false);
+
+    if (d.cat) { state.filter = d.cat; render(); }
+
+    if (d.open) { const item = findItem(d.open); if (item) openViewer(item); }
+
+    if (d.edit) { const item = findItem(d.edit); if (item) openItemModal(item); }
+
+    if (d.fav) {
+      const item = findItem(d.fav);
+      if (!item || busy.has('fav' + item.id)) return;
+      if (state.offline) { toast('You are offline.'); return; }
+      busy.add('fav' + item.id);
+      item.favorite = !item.favorite; // optimistic
+      render();
+      api('toggleFavorite', { id: item.id })
+        .then(r => { item.favorite = r.favorite; cacheItems(); render(); })
+        .catch(e => { item.favorite = !item.favorite; render(); toast(e.message || 'Could not update favorite'); })
+        .finally(() => busy.delete('fav' + item.id));
+    }
+
+    if (d.worn) {
+      const item = findItem(d.worn);
+      if (!item || busy.has('worn' + item.id)) return;
+      if (state.offline) { toast('You are offline.'); return; }
+      busy.add('worn' + item.id);
+      $$('[data-worn="' + CSS.escape(item.id) + '"]').forEach(b => { b.disabled = true; b.textContent = 'Saving…'; });
+      api('markWorn', { id: item.id })
+        .then(r => {
+          item.wearCount = r.wearCount;
+          item.lastWorn = r.lastWorn;
+          cacheItems();
+          render();
+          toast('Wear logged — ' + r.wearCount + '× so far ✨');
+        })
+        .catch(e => { render(); toast(e.message || 'Could not update wear log'); })
+        .finally(() => busy.delete('worn' + item.id));
+    }
+  });
+
+  $('#refresh').addEventListener('click', () => load());
+  $('#search').addEventListener('input', render);
+  $('#sort').addEventListener('change', e => { state.sort = e.target.value; render(); });
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    if ($('#viewerBack').classList.contains('show')) hideModal('#viewerBack');
+    else if ($('#modalBack').classList.contains('show')) closeItemModal();
+    else if ($('#settingsBack').classList.contains('show') && isConfigured()) hideModal('#settingsBack');
+  });
+
+  window.addEventListener('online', () => { if (state.offline) load(true); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && state.loaded && !IS_APPS_SCRIPT) load(true);
+  });
+
+  /* ---------------- start ---------------- */
+
+  loadCachedItems();
+  if (state.items.length) render(); else renderLoading();
+  if (isConfigured()) load(); else openSettings(true);
+})();
+</script>
+<!--BODY_EXTRA-->
+</body>
+</html>
