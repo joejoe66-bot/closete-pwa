@@ -18,7 +18,7 @@ const CONFIG = {
   // 如果呢個 script 唔係喺 Google Sheets「擴充功能 → Apps Script」開嘅，就會用呢個 ID。
   SPREADSHEET_ID: '1NqubXEZAIJdBOnK9iru0qR4b2jPc8tRPToR2s9mYCng',
   DRIVE_FOLDER_NAME: 'CLOSETÉ Wardrobe Photos',
-  CURRENCY: 'S$',
+  CURRENCY: '$',
   TIME_ZONE: 'Asia/Singapore',
   TOKEN_PROPERTY: 'CLOSETE_API_TOKEN',
   FOLDER_PROPERTY: 'CLOSETÉ_DRIVE_FOLDER_ID',
