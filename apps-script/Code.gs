@@ -114,8 +114,16 @@ function setupApiToken() {
     props.setProperty(CONFIG.TOKEN_PROPERTY, token);
   }
   getWardrobeSheet_(); // 順便建立 / 更新表頭
+  getPhotoFolder_();   // 順便要求 Google Drive 權限（上載相片要用）
   Logger.log('CLOSETÉ 密碼：' + token);
   return token;
+}
+
+/** 相片上載唔到（Drive 權限）就喺編輯器執行呢個，授權時記得剔選 Google Drive。 */
+function authorizeDrive() {
+  const folder = getPhotoFolder_();
+  Logger.log('Google Drive 已授權，相片資料夾：' + folder.getName());
+  return folder.getName();
 }
 
 /** 想換密碼（例如唔小心俾咗人）就執行呢個，舊密碼即時失效。 */
@@ -431,10 +439,20 @@ function uploadWardrobeImage_(dataUrl, itemName) {
 
   const bytes = Utilities.base64Decode(match[2]);
   if (bytes.length > CONFIG.MAX_IMAGE_BYTES) throw new Error('圖片太大，請選擇較小的照片。');
+  try {
+    return saveImageFile_(bytes, match[1], itemName);
+  } catch (error) {
+    if (/權限|权限|permission|authoriz|授權|授权/i.test(String(error && error.message))) {
+      throw codedError_('相片上載唔到：Google Drive 未授權。請喺 Apps Script 編輯器執行 authorizeDrive，並剔選 Google Drive。', 'DRIVE_AUTH');
+    }
+    throw error;
+  }
+}
 
-  const extension = match[1] === 'jpeg' ? 'jpg' : match[1];
+function saveImageFile_(bytes, type, itemName) {
+  const extension = type === 'jpeg' ? 'jpg' : type;
   const safeName = String(itemName || 'wardrobe-item').replace(/[\\/:*?"<>|#%{}~&]/g, '_').slice(0, 60);
-  const blob = Utilities.newBlob(bytes, 'image/' + match[1], safeName + '-' + Date.now() + '.' + extension);
+  const blob = Utilities.newBlob(bytes, 'image/' + type, safeName + '-' + Date.now() + '.' + extension);
   const file = getPhotoFolder_().createFile(blob);
   // App 要直接顯示相片，所以設為「知道連結的人可檢視」。
   file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
