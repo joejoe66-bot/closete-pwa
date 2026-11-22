@@ -566,8 +566,9 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
   }
 
-  function money(amount, currency) {
-    return (currency || 'S$') + ' ' + Number(amount || 0).toLocaleString('en-SG', {
+  // Always "$" (older saved rows may still say "S$").
+  function money(amount) {
+    return '$' + Number(amount || 0).toLocaleString('en-SG', {
       minimumFractionDigits: 2, maximumFractionDigits: 2
     });
   }
@@ -788,7 +789,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
       +   '<p>' + escapeHtml(item.brand || 'No brand') + (item.color ? ' · ' + escapeHtml(item.color) : '') + '</p>'
       +   '<span class="tag">' + escapeHtml(item.category || 'Other') + '</span>'
       +   (item.size ? '<span class="tag">' + escapeHtml(item.size) + '</span>' : '')
-      +   '<div class="price">' + money(item.price, item.currency) + '</div>'
+      +   '<div class="price">' + money(item.price) + '</div>'
       +   '<div class="wear">' + wear + '</div>'
       +   '<div class="card-actions">'
       +     '<button class="filter" data-edit="' + escapeHtml(item.id) + '">Edit</button>'
