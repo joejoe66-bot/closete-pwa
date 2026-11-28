@@ -1438,7 +1438,17 @@ body.easy .empty { font-size: 22px; }
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
-    navigator.serviceWorker.register('sw.js').catch(function () {});
+    var hadController = !!navigator.serviceWorker.controller;
+    var reloaded = false;
+    // When a new version of the app installs, reload once so it shows straight away.
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (!hadController || reloaded) return;
+      reloaded = true;
+      window.location.reload();
+    });
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+      .then(function (reg) { reg.update(); })
+      .catch(function () {});
   });
 }
 </script>
