@@ -237,6 +237,18 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pulse { from { opacity: .3; } to { opacity: 1; } }
 
+.mix-link {
+  display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink);
+  background: linear-gradient(110deg, #fffaf5, #efe4d6); border: 1px solid var(--line);
+  border-radius: 18px; padding: 14px 18px; margin: -8px 0 8px;
+}
+.mix-link span { font-size: 26px; }
+.mix-link b { font-size: 19px; white-space: nowrap; }
+.mix-link em { font-style: normal; font-size: 15px; }
+body.easy .mix-link { background: #fff; border-width: 2px; margin: 0 0 8px; }
+body.easy .mix-link b { font-size: 22px; }
+body.easy .mix-link em { font-size: 18px; }
+
 /* Brands */
 .brand-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; align-items: center; }
 .brand-row .row-label { font-weight: 600; margin-right: 4px; white-space: nowrap; flex: 0 0 auto; }
@@ -336,55 +348,102 @@ body.easy .easy-toggle { background: var(--olive); color: white; border-color: v
   .wide { grid-column: auto; }
 }
 
-/* ===== Easy mode (長者模式): bigger, simpler, Chinese ===== */
-body.easy { font-size: 21px; --line: #c9bcae; }
-body.easy .hero-img, body.easy .eyebrow, body.easy .photo-url, body.easy #refresh { display: none; }
-body.easy .hero { grid-template-columns: 1fr; min-height: 0; }
-body.easy .hero-copy { padding: 24px; }
-body.easy .hero h1 { font-size: 36px; }
-body.easy .hero p { font-size: 21px; }
-body.easy .primary { font-size: 21px; min-height: 58px; padding: 14px 26px; }
-body.easy .search { font-size: 21px; padding: 16px 20px; }
-body.easy .pill, body.easy .filter, body.easy .sort, body.easy .danger { font-size: 19px; min-height: 54px; padding: 10px 18px; }
+/* ===== Easy mode (長者模式) — calm list layout, big targets, Chinese ===== */
+.easy-head { display: none; }
+body.easy { font-size: 20px; background: #f6f0e8; --line: #d6c8b8; }
+body.easy .hero, body.easy .eyebrow, body.easy .photo-url, body.easy #refresh,
+body.easy .label-badge, body.easy .stat:nth-child(2), body.easy .stat:nth-child(3),
+body.easy .details > .tag + .tag { display: none; }
+
+body.easy .easy-head {
+  display: block; background: var(--olive); color: #fff;
+  border-radius: 24px; padding: 22px 22px 20px; margin-bottom: 16px;
+}
+body.easy .easy-head .date { font-size: 19px; opacity: .95; }
+body.easy .easy-head h1 { font: 700 36px/1.2 'DM Sans', sans-serif; margin: 4px 0 16px; }
+body.easy .easy-head button {
+  width: 100%; border: 0; border-radius: 16px; background: #fff; color: var(--olive);
+  font-size: 22px; font-weight: 700; min-height: 62px;
+}
+
+body.easy .search { font-size: 21px; padding: 16px 20px; border-width: 2px; background: #fff; }
+body.easy .easy-toggle, body.easy .pill.easy-toggle { font-size: 18px; min-height: 56px; background: var(--olive); color: #fff; border-color: var(--olive); }
+.brand-select { display: none; }
+body.easy .brand-select { display: block; width: 100%; margin-top: 12px; font-size: 20px; min-height: 58px; border: 2px solid var(--line); background: #fff; border-radius: 16px; padding: 0 14px; }
+body.easy #brandFilters { display: none; }
+body.easy .toolbar, body.easy .toolbar .sort { width: 100%; }
+body.easy .stats { grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 22px; }
+body.easy .stat { padding: 16px 18px; border: 2px solid var(--line); background: #fff; }
 body.easy .stat small { font-size: 18px; }
-body.easy .stat strong { font-size: 32px; }
-body.easy .section-head h2 { font-size: 32px; }
-body.easy .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-body.easy .photo { height: 260px; }
-body.easy .details { padding: 16px; }
-body.easy .details h3 { font-size: 23px; }
-body.easy .details p { font-size: 20px; }
-body.easy .tag { font-size: 18px; padding: 7px 13px; }
-body.easy .price { font-size: 22px; }
-body.easy .wear { font-size: 19px; }
-body.easy .card-actions { flex-direction: column; gap: 10px; }
-body.easy .card-actions .filter { font-size: 20px; min-height: 58px; }
-body.easy .heart { width: 52px; height: 52px; font-size: 28px; }
-body.easy .label-badge { width: 60px; height: 60px; }
-body.easy .brand-tile b { font-size: 22px; }
-body.easy .brand-tile span { font-size: 19px; }
-body.easy .nav button { font-size: 20px; }
-body.easy .modal h2 { font-size: 36px; }
+body.easy .stat small:last-child { display: none; }
+body.easy .stat strong { font: 700 40px/1.1 'DM Sans', sans-serif; margin: 6px 0 0; }
+
+body.easy .section-head { margin: 22px 0 12px; }
+body.easy .section-head h2 { font: 700 28px 'DM Sans', sans-serif; }
+body.easy .link { font-size: 19px; }
+
+body.easy .filters { flex-wrap: wrap; overflow: visible; gap: 10px; }
+body.easy .filter, body.easy .sort, body.easy .pill, body.easy .danger {
+  font-size: 19px; min-height: 54px; padding: 10px 18px; border-width: 2px; background: #fff;
+}
+body.easy .filter.active { background: var(--olive); color: #fff; border-color: var(--olive); }
+body.easy .brand-row .row-label { flex-basis: 100%; font-size: 19px; }
+body.easy .brand-tiles { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+body.easy .brand-tile { background: #fff; border-width: 2px; min-height: 76px; }
+body.easy .brand-tile b { font-size: 21px; }
+body.easy .brand-tile span { font-size: 18px; }
+
+/* Cards become simple rows: photo on the left, words on the right, two big buttons below */
+body.easy .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+body.easy .card {
+  display: grid; grid-template-columns: 116px 1fr; column-gap: 16px; row-gap: 3px;
+  align-items: start; padding: 14px; position: relative;
+  background: #fff; border: 2px solid var(--line); border-radius: 20px; animation: none;
+}
+body.easy .card:hover { transform: none; }
+body.easy .photo {
+  grid-row: 1 / span 5; width: 116px; height: 116px; border-radius: 14px; position: static;
+}
+body.easy .placeholder { font-size: 40px; }
+body.easy .details { display: contents; }
+body.easy .details > * { grid-column: 2; margin: 0; padding-right: 50px; }
+body.easy .details h3 { font-size: 22px; line-height: 1.3; }
+body.easy .details p { font-size: 19px; }
+body.easy .details > .tag { justify-self: start; font-size: 17px; padding: 5px 12px; margin: 4px 0; }
+body.easy .price { font-size: 20px; }
+body.easy .wear { font-size: 18px; }
+body.easy .heart { top: 12px; right: 12px; width: 48px; height: 48px; font-size: 26px; border: 2px solid var(--line); }
+body.easy .card-actions { grid-column: 1 / -1; padding: 0; margin-top: 12px; gap: 10px; }
+body.easy .card-actions .filter { min-height: 58px; font-size: 20px; }
+body.easy .card-actions [data-worn] { background: var(--olive); color: #fff; border-color: var(--olive); }
+
+body.easy .nav button { font-size: 19px; }
+body.easy .modal { background: #fff; }
+body.easy .modal h2 { font: 700 32px 'DM Sans', sans-serif; }
 body.easy .modal p.help { font-size: 19px; }
 body.easy .form { grid-template-columns: 1fr; gap: 18px; }
-body.easy .field { font-size: 20px; }
-body.easy .field input, body.easy .field select, body.easy .field textarea { font-size: 22px; min-height: 62px; }
-body.easy .photo-buttons { grid-template-columns: 1fr; }
-body.easy .photo-buttons [data-photo-act=remove] { grid-column: auto; }
-body.easy .photo-buttons .pill { font-size: 20px; min-height: 58px; }
-body.easy .photo-help { font-size: 18px; }
-body.easy .photo-preview { width: 130px; height: 130px; flex-basis: 130px; }
+body.easy .field { font-size: 20px; font-weight: 600; }
+body.easy .field input, body.easy .field select, body.easy .field textarea {
+  font-size: 22px; min-height: 62px; border-width: 2px;
+}
+body.easy .photo-buttons { grid-template-columns: 1fr 1fr; }
+body.easy .photo-buttons .pill { font-size: 19px; min-height: 58px; }
+body.easy .photo-help { font-size: 17px; }
+body.easy .photo-preview { width: 120px; height: 120px; flex-basis: 120px; }
 body.easy .modal-actions button { font-size: 21px; min-height: 62px; }
+body.easy .primary { font-size: 21px; min-height: 60px; }
 body.easy .toast { font-size: 22px; padding: 18px 28px; }
-body.easy .empty { font-size: 22px; }
+body.easy .empty { font-size: 21px; }
+
 @media (max-width: 760px) {
-  body.easy { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  body.easy { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
   body.easy .grid { grid-template-columns: 1fr; }
-  body.easy .photo { height: 300px; }
-  body.easy .nav button { font-size: 17px; min-height: 68px; }
-  body.easy .stats { grid-template-columns: 1fr 1fr; }
-  body.easy .photo-control { flex-direction: column; align-items: stretch; }
-  body.easy .photo-preview { width: 100%; height: 200px; flex-basis: auto; }
+  body.easy .card { grid-template-columns: 100px 1fr; }
+  body.easy .photo { width: 100px; height: 100px; }
+  body.easy .side { padding-top: 8px; border-top-width: 2px; }
+  body.easy .nav button { font-size: 17px; min-height: 66px; font-weight: 600; }
+  body.easy .nav button.active { background: var(--olive); color: #fff; }
+  body.easy .section-head { flex-wrap: wrap; }
   body.easy .modal-actions { flex-wrap: wrap; }
   body.easy .modal-actions #deleteBtn { flex-basis: 100%; order: 3; }
 }
@@ -414,6 +473,11 @@ body.easy .empty { font-size: 22px; }
     </div>
 
     <div id="overview">
+      <section class="easy-head" aria-hidden="true">
+        <div class="date" id="easyDate"></div>
+        <h1>我的衣櫃</h1>
+        <button type="button" data-action="add">＋ 新增衣物</button>
+      </section>
       <section class="hero">
         <div class="hero-copy">
           <div class="eyebrow">Your personal wardrobe</div>
@@ -430,6 +494,10 @@ body.easy .empty { font-size: 22px; }
         <div class="stat"><small>◎ Total value</small><strong id="value">—</strong><small>Recorded prices</small></div>
         <div class="stat"><small>♥ Favorites</small><strong id="favCount">—</strong><small>Pieces you love</small></div>
       </section>
+
+      <a class="mix-link" id="mixLink" href="mix.html" hidden>
+        <span>✨</span><b>Mix &amp; Match</b><em>Spin your closet into an outfit · demo →</em>
+      </a>
 
       <div id="brandSection">
         <div class="section-head">
@@ -463,6 +531,7 @@ body.easy .empty { font-size: 22px; }
       </div>
       <div class="filters" id="filters"></div>
       <div class="filters brand-row" id="brandFilters"></div>
+      <select class="brand-select" id="brandSelect" aria-label="Brand"></select>
       <div class="grid" id="items" style="margin-top:12px"></div>
     </div>
   </main>
@@ -654,13 +723,13 @@ body.easy .empty { font-size: 22px; }
     'No photo': '未有相', 'No label photo': '未有標籤相', 'Piece': '衣物', 'Brand / label': '牌子／標籤',
     'Tops': '上衣', 'Bottoms': '褲', 'Outerwear': '外套', 'Shoes': '鞋', 'Accessories': '配飾',
     'Dresses': '裙', 'Sportswear': '運動服', 'Other': '其他', 'All pieces': '全部',
-    'All brands': '所有牌子', 'No brand': '冇牌子', 'Brand:': '牌子：',
+    'All brands': '所有牌子', 'No brand': '冇牌子', 'Brand:': '牌子：', 'Mix & Match': '轉衫配搭', 'Spin your closet into an outfit · demo →': '轉下轉下，配一套衫 · 試玩 →',
     'Settings': '設定', 'Connect your wardrobe': '連接衣櫃', 'Password': '密碼', 'Connect': '連接',
     'Apps Script web app URL': 'Apps Script 網址', 'Install on your phone': '安裝到手機', 'Disconnect': '中斷連接',
     '⌕ Search your wardrobe...': '⌕ 搵衫…', 'e.g. Linen shirt': '例如：麻質恤衫', 'e.g. Uniqlo': '例如：Uniqlo',
     'e.g. Olive green': '例如：深綠色', 'e.g. 1 pc / 1 pair / 1 set': '例如：1 件 / 1 條 / 1 套',
     'Fit, material, storage…': '尺碼、物料、擺放位置…',
-    'Wore it': '今日著咗', 'Not worn yet': '未著過', 'Saving…': '儲存緊…', 'Uploading photo…': '上載緊相…',
+    'Wore it': '✓ 今日著咗', 'Not worn yet': '未著過', 'Saving…': '儲存緊…', 'Uploading photo…': '上載緊相…',
     'Deleting…': '刪除緊…', 'Tap again to delete': '再撳一次確認刪除', 'Checking…': '檢查緊…',
     'Piece saved to your wardrobe ✨': '已儲存 ✨', 'Piece deleted': '已刪除', 'Connected ✨': '已連接 ✨',
     'No pieces match.': '搵唔到。', 'Please enter an item name.': '請輸入名稱。',
@@ -697,6 +766,10 @@ body.easy .empty { font-size: 22px; }
 
   function setEasy(on, save) {
     easy = !!on;
+    const now = new Date();
+    document.getElementById('easyDate').textContent =
+      (now.getMonth() + 1) + '月' + now.getDate() + '日　星期' + '日一二三四五六'[now.getDay()];
+    document.querySelector('.easy-head').setAttribute('aria-hidden', String(!easy));
     document.body.classList.toggle('easy', easy);
     if (save) storage.set(EASY_KEY, easy ? '1' : '0');
     const btn = document.getElementById('easyToggle');
@@ -926,7 +999,7 @@ body.easy .empty { font-size: 22px; }
   function cardHtml(item, index) {
     const wear = item.wearCount
       ? (easy
-        ? '著過 ' + item.wearCount + ' 次 · 上次' + escapeHtml(daysAgo(item.lastWorn))
+        ? '著過 ' + item.wearCount + ' 次 · 上次 ' + escapeHtml(daysAgo(item.lastWorn))
         : 'Worn ' + item.wearCount + '× · last ' + escapeHtml(daysAgo(item.lastWorn)))
       : T('Not worn yet');
     const photo = item.imageUrl
@@ -998,6 +1071,9 @@ body.easy .empty { font-size: 22px; }
     $('#brandFilters').innerHTML = '<span class="row-label">' + T('Brand:') + '</span>'
       + chip('All', T('All brands'), null)
       + groups.map(g => chip(g.key, brandName(g), g.count)).join('');
+    $('#brandSelect').innerHTML = '<option value="All">' + escapeHtml(T('All brands')) + '</option>'
+      + groups.map(g => '<option value="' + escapeHtml(g.key === '' ? '__none' : g.key) + '"'
+        + (state.brand === g.key ? ' selected' : '') + '>' + escapeHtml(brandName(g)) + '（' + g.count + '）</option>').join('');
     $('#brandList').innerHTML = groups.filter(g => g.key)
       .map(g => '<option value="' + escapeHtml(g.label) + '">').join('');
   }
@@ -1404,6 +1480,10 @@ body.easy .empty { font-size: 22px; }
     toast(easy ? '長者模式：已開啟大字' : 'Normal mode');
   });
   $('#search').addEventListener('input', render);
+  $('#brandSelect').addEventListener('change', e => {
+    state.brand = e.target.value === '__none' ? '' : e.target.value;
+    render();
+  });
   $('#sort').addEventListener('change', e => { state.sort = e.target.value; render(); });
 
   document.addEventListener('keydown', e => {
@@ -1420,6 +1500,7 @@ body.easy .empty { font-size: 22px; }
 
   /* ---------------- start ---------------- */
 
+  $('#mixLink').hidden = IS_APPS_SCRIPT; // the demo page lives next to the PWA only
   setEasy(storage.get(EASY_KEY) === '1', false);
   loadCachedItems();
   if (state.items.length) render(); else renderLoading();
