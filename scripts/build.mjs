@@ -33,7 +33,17 @@ const head = `<meta name="robots" content="noindex, nofollow">
 const body = `<script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
-    navigator.serviceWorker.register('sw.js').catch(function () {});
+    var hadController = !!navigator.serviceWorker.controller;
+    var reloaded = false;
+    // When a new version of the app installs, reload once so it shows straight away.
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (!hadController || reloaded) return;
+      reloaded = true;
+      window.location.reload();
+    });
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+      .then(function (reg) { reg.update(); })
+      .catch(function () {});
   });
 }
 </script>
@@ -92,8 +102,9 @@ self.addEventListener('fetch', event => {
 
   if (request.mode === 'navigate') {
     // Network first so updates show up; fall back to the cached app when offline.
+    // cache: 'no-cache' asks GitHub Pages for the newest page instead of the browser's 10-minute HTTP cache.
     event.respondWith(
-      fetch(request)
+      fetch(request, { cache: 'no-cache' })
         .then(response => {
           const copy = response.clone();
           caches.open(CACHE).then(cache => cache.put('index.html', copy));

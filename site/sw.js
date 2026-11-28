@@ -1,5 +1,5 @@
 /* CLOSETÉ service worker — app shell only. Wardrobe data and photos are never cached here. */
-const CACHE = 'closete-shell-d08bd0c780';
+const CACHE = 'closete-shell-c61a405844';
 const SHELL = [
   './',
   'index.html',
@@ -29,8 +29,9 @@ self.addEventListener('fetch', event => {
 
   if (request.mode === 'navigate') {
     // Network first so updates show up; fall back to the cached app when offline.
+    // cache: 'no-cache' asks GitHub Pages for the newest page instead of the browser's 10-minute HTTP cache.
     event.respondWith(
-      fetch(request)
+      fetch(request, { cache: 'no-cache' })
         .then(response => {
           const copy = response.clone();
           caches.open(CACHE).then(cache => cache.put('index.html', copy));
