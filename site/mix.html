@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#596347">
-<title>CLOSETÉ — Mix &amp; Match (demo)</title>
+<title>CLOSETÉ — Rack view</title>
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #f7f1eb; --paper: #fffaf5; --ink: #252720; --olive: #596347;
-  --line: #ddd1c4; --rose: #c9826a; --card-w: 122px; --card-h: 142px;
+  --line: #ddd1c4; --rose: #c9826a; --card-w: 140px; --card-h: 166px;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -37,13 +37,7 @@ header h1 { font: 600 28px 'Playfair Display'; margin: 0; flex: 1; }
 /* A rack is one row of clothes on a turning cylinder */
 .rack { position: relative; margin: 6px 0 2px; }
 .rack-head { display: flex; align-items: center; justify-content: space-between; padding: 0 2px; }
-.rack-head h2 { font-size: 15px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; }
-.lock {
-  border: 1px solid var(--line); background: var(--paper); border-radius: 20px;
-  padding: 6px 12px; font-size: 14px; font-weight: 600;
-}
-.lock[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
-
+.rack-head h2 { font-size: 16px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; }
 .stage {
   position: relative; height: calc(var(--card-h) + 26px); perspective: 1100px;
   overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
@@ -86,25 +80,39 @@ header h1 { font: 600 28px 'Playfair Display'; margin: 0; flex: 1; }
 .caption b { display: block; font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 30px; }
 .caption span { font-size: 14px; }
 
-.actions {
-  display: flex; gap: 10px; margin: 12px -14px 16px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-  position: sticky; bottom: 0; z-index: 5; background: linear-gradient(#f7f1eb00, var(--bg) 14px);
-}
 .btn {
-  flex: 1; border: 1px solid var(--line); background: var(--paper); border-radius: 30px;
+  flex: 1; display: grid; place-items: center; text-decoration: none; color: var(--ink);
+  border: 1px solid var(--line); background: var(--paper); border-radius: 30px;
   min-height: 54px; font-weight: 700; font-size: 18px;
 }
-.btn.primary { background: var(--olive); color: #fff; border-color: var(--olive); font-size: 20px; }
-.btn:disabled { opacity: .6; }
+.btn.primary { background: var(--olive); color: #fff; border-color: var(--olive); }
 
-.looks h3 { font: 600 22px 'Playfair Display'; margin: 10px 0 8px; }
-.look-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; }
-.look {
-  flex: 0 0 auto; display: grid; grid-template-rows: repeat(3, 54px); gap: 3px; width: 64px;
-  border-radius: 12px; overflow: hidden; background: #fff; border: 1px solid var(--line); padding: 3px;
+.slot.front { cursor: pointer; }
+.count { font-size: 14px; font-weight: 600; }
+
+.sheet-back {
+  position: fixed; inset: 0; z-index: 20; display: none; align-items: flex-end; justify-content: center;
+  background: #211e1b75; backdrop-filter: blur(4px);
 }
-.look img, .look div { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; background: #eee5db; }
-.empty-looks { font-size: 15px; }
+.sheet-back.show { display: flex; }
+.sheet {
+  width: min(560px, 100%); max-height: 92dvh; overflow-y: auto; background: var(--paper);
+  border-radius: 24px 24px 0 0; padding: 18px 18px calc(18px + env(safe-area-inset-bottom));
+  animation: up .25s ease-out; scrollbar-width: none;
+}
+.sheet::-webkit-scrollbar { display: none; }
+@keyframes up { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet-photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.sheet-photos img { width: 100%; max-height: 52vh; object-fit: contain; border-radius: 16px; background: #eee5db; }
+.sheet h2 { font: 600 26px 'Playfair Display'; margin: 14px 0 6px; }
+.sheet-meta { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 17px; }
+.sheet-meta dt { font-weight: 700; }
+.sheet-meta dd { margin: 0; }
+.sheet-actions { display: flex; gap: 10px; margin-top: 18px; }
+@media (min-width: 700px) {
+  .sheet-back { align-items: center; }
+  .sheet { border-radius: 24px; }
+}
 
 .toast {
   position: fixed; left: 50%; bottom: calc(22px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px);
@@ -117,9 +125,7 @@ header h1 { font: 600 28px 'Playfair Display'; margin: 0; flex: 1; }
   :root { --card-w: 170px; --card-h: 200px; }
   header h1 { font-size: 34px; }
 }
-@media (max-height: 700px) and (max-width: 700px) {
-  :root { --card-w: 106px; --card-h: 122px; }
-}
+
 @media (prefers-reduced-motion: reduce) {
   .ring.snap { transition: none; }
 }
@@ -129,22 +135,23 @@ header h1 { font: 600 28px 'Playfair Display'; margin: 0; flex: 1; }
 <div class="wrap">
   <header>
     <a href="./">← Closet</a>
-    <h1>Mix &amp; Match</h1>
+    <h1>Rack view</h1>
   </header>
-  <div class="badge">Demo · Clueless-style closet</div>
-  <p class="intro" id="intro">Swipe each rail to turn it, or tap <b>Shuffle</b> for a surprise outfit. Lock a row to keep that piece.</p>
+  <p class="intro" id="intro">Swipe a rail left or right to turn it. Tap the piece in front to see it.</p>
 
-  <div id="racks"></div>
+  <div id="racks"><p class="intro">Loading your wardrobe…</p></div>
+</div>
 
-  <div class="actions">
-    <button class="btn primary" id="shuffle">🎰 Shuffle</button>
-    <button class="btn" id="save">♡ Save look</button>
+<div class="sheet-back" id="sheetBack">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetName">
+    <div class="sheet-photos" id="sheetPhotos"></div>
+    <h2 id="sheetName"></h2>
+    <div class="sheet-meta" id="sheetMeta"></div>
+    <div class="sheet-actions">
+      <a class="btn" id="sheetOpen" href="./">Open in closet</a>
+      <button class="btn primary" id="sheetClose">Close</button>
+    </div>
   </div>
-
-  <section class="looks">
-    <h3>Saved looks</h3>
-    <div class="look-list" id="looks"><div class="empty-looks">No looks yet. Save one you like.</div></div>
-  </section>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -155,66 +162,26 @@ header h1 { font: 600 28px 'Playfair Display'; margin: 0; flex: 1; }
   const API_URL_KEY = 'closete.apiUrl';
   const TOKEN_KEY = 'closete.token';
   const ITEMS_KEY = 'closete.items';
-  const LOOKS_KEY = 'closete.demoLooks';
-
-  const RACKS = [
-    { id: 'top', title: 'Top', categories: ['Tops', 'Outerwear', 'Dresses', 'Sportswear'] },
-    { id: 'bottom', title: 'Bottom', categories: ['Bottoms'] },
-    { id: 'feet', title: 'Shoes & extras', categories: ['Shoes', 'Accessories'] }
-  ];
+  const CATEGORIES = ['Tops', 'Bottoms', 'Outerwear', 'Dresses', 'Shoes', 'Accessories', 'Sportswear', 'Other'];
 
   const get = k => { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } };
-  const set = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
   const $ = s => document.querySelector(s);
   const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const money = n => '$' + Number(n || 0).toLocaleString('en-SG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-  let toastTimer;
-  function toast(msg) {
-    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
-    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-  }
-
-  /* ---------- sample pieces (simple drawings) for rows that are still empty ---------- */
-  function svgData(svg) { return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); }
-  function teeSvg(color, bg) {
-    return svgData('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240"><rect width="200" height="240" fill="' + bg + '"/>'
-      + '<path d="M70 40 L45 50 L18 88 L44 104 L56 90 L56 206 L144 206 L144 90 L156 104 L182 88 L155 50 L130 40 Q100 62 70 40Z" fill="' + color + '" stroke="#0002" stroke-width="2"/>'
-      + '<path d="M70 40 Q100 62 130 40" fill="none" stroke="#0003" stroke-width="3"/></svg>');
-  }
-  function shirtSvg(color, bg) {
-    return svgData('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240"><rect width="200" height="240" fill="' + bg + '"/>'
-      + '<path d="M72 36 L40 52 L22 150 L48 154 L58 96 L58 214 L142 214 L142 96 L152 154 L178 150 L160 52 L128 36 L100 70Z" fill="' + color + '" stroke="#0002" stroke-width="2"/>'
-      + '<path d="M72 36 L100 70 L128 36" fill="none" stroke="#0004" stroke-width="3"/><line x1="100" y1="70" x2="100" y2="214" stroke="#0003" stroke-width="2"/>'
-      + '<circle cx="100" cy="100" r="3" fill="#0005"/><circle cx="100" cy="135" r="3" fill="#0005"/><circle cx="100" cy="170" r="3" fill="#0005"/></svg>');
-  }
-  function shoeSvg(color, bg) {
-    return svgData('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240"><rect width="200" height="240" fill="' + bg + '"/>'
-      + '<path d="M28 150 L34 100 Q60 96 76 112 Q110 130 150 136 Q176 140 178 160 L178 170 L28 170Z" fill="' + color + '" stroke="#0002" stroke-width="2"/>'
-      + '<rect x="26" y="168" width="154" height="14" rx="6" fill="#f4efe8" stroke="#0002"/>'
-      + '<path d="M70 114 L80 128 M86 120 L96 134 M102 125 L112 139" stroke="#fff9" stroke-width="3"/></svg>');
-  }
-  function bagSvg(color, bg) {
-    return svgData('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240"><rect width="200" height="240" fill="' + bg + '"/>'
-      + '<path d="M70 96 Q70 50 100 50 Q130 50 130 96" fill="none" stroke="' + color + '" stroke-width="8"/>'
-      + '<rect x="44" y="92" width="112" height="100" rx="16" fill="' + color + '" stroke="#0002" stroke-width="2"/></svg>');
-  }
-  const SAMPLES = {
-    top: [
-      ['White tee', teeSvg('#fbfaf7', '#e9e2d8')], ['Olive shirt', shirtSvg('#6f7a57', '#efe8dd')],
-      ['Rose tee', teeSvg('#d79a85', '#f1e8de')], ['Navy shirt', shirtSvg('#2f3c5c', '#ece5da')],
-      ['Oat tee', teeSvg('#d9c6a5', '#eee6db')], ['Striped shirt', shirtSvg('#b9c6d6', '#f2ece3')]
-    ],
-    bottom: [
-      ['Sample jeans', teeSvg('#4b6a92', '#ebe4d9')]
-    ],
-    feet: [
-      ['White sneakers', shoeSvg('#fbfaf7', '#e9e2d8')], ['Brown loafers', shoeSvg('#7b5236', '#efe8dd')],
-      ['Black boots', shoeSvg('#2b2b2b', '#ece5da')], ['Tan bag', bagSvg('#b88a5a', '#f1e8de')],
-      ['Sage sneakers', shoeSvg('#a7b394', '#eee6db')]
-    ]
+  // Easy mode (長者模式) from the main app: Chinese labels and bigger text here too.
+  const easy = get('closete.easy') === '1';
+  const ZH = {
+    'Tops': '上衣', 'Bottoms': '褲', 'Outerwear': '外套', 'Dresses': '裙', 'Shoes': '鞋',
+    'Accessories': '配飾', 'Sportswear': '運動服', 'Other': '其他'
   };
+  const T = t => (easy && ZH[t]) || t;
 
-  /* ---------- data ---------- */
+  function displayUrl(url) {
+    const m = String(url || '').match(/^https:\/\/drive\.google\.com\/(?:uc|open|thumbnail)\?(?:.*&)?id=([\w-]{20,})/);
+    return m ? 'https://lh3.googleusercontent.com/d/' + m[1] : String(url || '');
+  }
+
   async function loadItems() {
     let items = [];
     try { items = JSON.parse(get(ITEMS_KEY) || '[]'); } catch (e) {}
@@ -226,200 +193,167 @@ header h1 { font: 600 28px 'Playfair Display'; margin: 0; flex: 1; }
           body: JSON.stringify({ token: token, action: 'getItems', payload: {} })
         }).then(r => r.json());
         if (res && res.ok && Array.isArray(res.data)) items = res.data;
-      } catch (e) { /* use the cached copy */ }
+      } catch (e) { /* keep the cached copy */ }
     }
     return items;
   }
 
-  function displayUrl(url) {
-    const m = String(url || '').match(/^https:\/\/drive\.google\.com\/(?:uc|open|thumbnail)\?(?:.*&)?id=([\w-]{20,})/);
-    return m ? 'https://lh3.googleusercontent.com/d/' + m[1] : String(url || '');
-  }
-
-  /* ---------- a turning rack ---------- */
-  function makeRack(def, pieces) {
+  /* ---------- one turning rail ---------- */
+  function makeRack(title, pieces, onPick) {
     const el = document.createElement('section');
     el.className = 'rack';
     el.innerHTML =
-      '<div class="rack-head"><h2>' + esc(def.title) + '</h2>'
-      + '<button class="lock" aria-pressed="false">🔓 Lock</button></div>'
+      '<div class="rack-head"><h2>' + esc(title) + '</h2><span class="count">' + pieces.length + (easy ? ' 件' : '') + '</span></div>'
       + '<div class="stage"><div class="rail"></div><div class="ring"></div>'
       + '<button class="arrow prev" aria-label="Previous">‹</button><button class="arrow next" aria-label="Next">›</button></div>'
       + '<div class="caption"><b></b><span></span></div>';
     const stage = el.querySelector('.stage');
     const ring = el.querySelector('.ring');
-    const lockBtn = el.querySelector('.lock');
 
     // A cylinder needs enough faces to look round, so short lists repeat.
     const slots = [];
-    const minSlots = 10;
-    for (let i = 0; slots.length < Math.max(minSlots, pieces.length); i++) slots.push(pieces[i % pieces.length]);
+    for (let i = 0; slots.length < Math.max(10, pieces.length); i++) slots.push(pieces[i % pieces.length]);
     const n = slots.length;
     const step = 360 / n;
 
     ring.innerHTML = slots.map((p, i) =>
       '<div class="slot" data-i="' + i + '">'
-      + (p.image ? '<img alt="" draggable="false" src="' + esc(p.image) + '" onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'ph\',textContent:\'♧\'}))">' : '<div class="ph">♧</div>')
-      + (p.sample ? '<span class="sample">SAMPLE</span>' : '')
+      + (p.image ? '<img alt="" draggable="false" src="' + esc(p.image) + '">' : '<div class="ph">♧</div>')
       + '</div>').join('');
     const slotEls = Array.from(ring.children);
+    slotEls.forEach(s => {
+      const img = s.querySelector('img');
+      if (img) img.addEventListener('error', () => { img.outerHTML = '<div class="ph">♧</div>'; });
+    });
 
-    let radius = 0;
-    let rot = 0;
-    let locked = false;
+    let radius = 0, rot = 0;
 
     function layout() {
-      const w = ring.offsetWidth || 148;
+      const w = ring.offsetWidth || 122;
       radius = Math.round((w / 2 + 14) / Math.tan(Math.PI / n));
       slotEls.forEach((s, i) => { s.style.transform = 'rotateY(' + (i * step) + 'deg) translateZ(' + radius + 'px)'; });
       apply();
     }
-
-    function index() { return ((Math.round(rot / step) % n) + n) % n; }
+    const index = () => ((Math.round(rot / step) % n) + n) % n;
 
     function apply() {
       ring.style.transform = 'translateZ(' + (-radius) + 'px) rotateY(' + (-rot) + 'deg)';
       const front = index();
       slotEls.forEach((s, i) => {
-        let d = ((i * step - rot) % 360 + 540) % 360 - 180; // -180..180 from the front
-        const a = Math.abs(d);
+        const a = Math.abs(((i * step - rot) % 360 + 540) % 360 - 180);
         s.style.opacity = a > 75 ? 0 : String(1 - a / 110);
-        s.style.filter = a < step / 2 ? 'none' : 'saturate(.85) brightness(.97)';
         s.classList.toggle('front', i === front);
       });
       const p = slots[front];
       el.querySelector('.caption b').textContent = p.name;
-      el.querySelector('.caption span').textContent = p.sample ? 'Sample piece' : [p.brand, p.color].filter(Boolean).join(' · ');
+      el.querySelector('.caption span').textContent = [p.brand, p.color].filter(Boolean).join(' · ');
     }
 
-    function snapTo(target, ms) {
+    function snapTo(target) {
       ring.classList.add('snap');
-      if (ms) slotEls.forEach(s => { s.style.opacity = '1'; s.style.filter = 'none'; }); // keep every face visible while it spins
-      if (ms) ring.style.transitionDuration = ms + 'ms';
       rot = target;
-      if (ms) ring.style.transform = 'translateZ(' + (-radius) + 'px) rotateY(' + (-rot) + 'deg)';
-      else apply();
-      return new Promise(res => setTimeout(() => {
-        ring.classList.remove('snap'); ring.style.transitionDuration = ''; apply(); res();
-      }, (ms || 450) + 30));
+      apply();
+      setTimeout(() => ring.classList.remove('snap'), 480);
     }
-
-    function go(delta) { if (!rack.spinning) snapTo(Math.round(rot / step) * step + delta * step); }
+    const go = d => snapTo(Math.round(rot / step) * step + d * step);
     el.querySelector('.prev').addEventListener('click', e => { e.stopPropagation(); go(-1); });
     el.querySelector('.next').addEventListener('click', e => { e.stopPropagation(); go(1); });
 
-    lockBtn.addEventListener('click', () => {
-      locked = !locked;
-      lockBtn.setAttribute('aria-pressed', String(locked));
-      lockBtn.textContent = locked ? '🔒 Locked' : '🔓 Lock';
-    });
-
-    // Drag / swipe to turn, with a little momentum.
-    let dragging = false, startX = 0, startRot = 0, lastX = 0, lastT = 0, vel = 0;
+    // Drag / swipe to turn, with a little momentum. A tap (no movement) picks the front piece.
+    let dragging = false, moved = 0, startX = 0, startRot = 0, lastX = 0, lastT = 0, vel = 0;
     stage.addEventListener('pointerdown', e => {
-      if (e.target.closest('.arrow') || rack.spinning) return;
-      dragging = true; startX = lastX = e.clientX; startRot = rot; lastT = performance.now(); vel = 0;
+      if (e.target.closest('.arrow')) return;
+      dragging = true; moved = 0; startX = lastX = e.clientX; startRot = rot; lastT = performance.now(); vel = 0;
       stage.classList.add('dragging'); ring.classList.remove('snap');
       stage.setPointerCapture(e.pointerId);
     });
     stage.addEventListener('pointermove', e => {
       if (!dragging) return;
-      const degPerPx = step / ((ring.offsetWidth || 148) * 0.9);
+      const degPerPx = step / ((ring.offsetWidth || 122) * 0.9);
+      moved = Math.max(moved, Math.abs(e.clientX - startX));
       rot = startRot - (e.clientX - startX) * degPerPx;
       const now = performance.now();
-      vel = (e.clientX - lastX) / Math.max(1, now - lastT) * degPerPx; // deg per ms
+      vel = (e.clientX - lastX) / Math.max(1, now - lastT) * degPerPx;
       lastX = e.clientX; lastT = now;
       apply();
     });
-    const end = () => {
+    const end = e => {
       if (!dragging) return;
       dragging = false; stage.classList.remove('dragging');
-      const fling = Math.max(-3, Math.min(3, Math.round(-vel * 180 / step)));
+      if (moved < 6) {
+        // Tap: the front piece opens; a side piece turns to the front.
+        const hit = document.elementFromPoint(e.clientX, e.clientY);
+        const slot = hit && hit.closest('.slot');
+        if (slot && slot.classList.contains('front')) { snapTo(Math.round(rot / step) * step); onPick(slots[index()]); return; }
+        if (slot) {
+          let d = ((Number(slot.dataset.i) * step - rot) % 360 + 540) % 360 - 180;
+          snapTo(rot + d);
+          return;
+        }
+      }
+      const fling = Math.max(-4, Math.min(4, Math.round(-vel * 180 / step)));
       snapTo(Math.round(rot / step) * step + fling * step);
     };
     stage.addEventListener('pointerup', end);
-    stage.addEventListener('pointercancel', end);
+    stage.addEventListener('pointercancel', () => { dragging = false; stage.classList.remove('dragging'); snapTo(Math.round(rot / step) * step); });
 
-    const rack = {
-      el, spinning: false,
-      get locked() { return locked; },
-      current() { return slots[index()]; },
-      layout,
-      async spin(delayMs) {
-        if (locked) return;
-        rack.spinning = true;
-        const turns = 2 + Math.floor(Math.random() * 2);
-        const extra = Math.floor(Math.random() * n);
-        const target = Math.round(rot / step) * step + (turns * n + extra) * step;
-        await snapTo(target, 1500 + delayMs);
-        rack.spinning = false;
-      },
-      setStart(i) { rot = i * step; apply(); }
-    };
-    return rack;
+    return { el, layout };
   }
+
+  /* ---------- detail sheet ---------- */
+  function openSheet(p) {
+    const photos = [p.image, p.labelImage].filter(Boolean);
+    $('#sheetPhotos').innerHTML = photos.map(src => '<img alt="" src="' + esc(src) + '">').join('');
+    $('#sheetName').textContent = p.name;
+    const rows = [
+      [easy ? '牌子' : 'Brand', p.brand], [easy ? '顏色' : 'Color', p.color], [easy ? '單位' : 'Unit', p.size],
+      [easy ? '價錢' : 'Price', p.price ? money(p.price) : ''],
+      [easy ? '著過' : 'Worn', p.wearCount ? (easy ? p.wearCount + ' 次' : p.wearCount + '×') : ''],
+      [easy ? '備註' : 'Notes', p.notes]
+    ].filter(r => r[1]);
+    $('#sheetMeta').innerHTML = '<dl class="sheet-meta">' + rows.map(r => '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>').join('') + '</dl>';
+    $('#sheetBack').classList.add('show');
+  }
+  const closeSheet = () => $('#sheetBack').classList.remove('show');
+  $('#sheetClose').addEventListener('click', closeSheet);
+  $('#sheetBack').addEventListener('click', e => { if (e.target === $('#sheetBack')) closeSheet(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 
   /* ---------- page ---------- */
   let racks = [];
-
-  function renderLooks() {
-    let looks = [];
-    try { looks = JSON.parse(get(LOOKS_KEY) || '[]'); } catch (e) {}
-    $('#looks').innerHTML = looks.length
-      ? looks.map(l => '<div class="look" title="' + esc(l.names.join(' + ')) + '">'
-        + l.images.map(src => src ? '<img alt="" src="' + esc(src) + '">' : '<div></div>').join('') + '</div>').join('')
-      : '<div class="empty-looks">No looks yet. Save one you like.</div>';
-  }
-
   async function start() {
-    const items = await loadItems();
-    const connected = !!(get(API_URL_KEY) && get(TOKEN_KEY));
-    let realRows = 0;
-    racks = RACKS.map(def => {
-      const mine = items
-        .filter(i => def.categories.includes(i.category))
-        .map(i => ({ name: i.name, brand: i.brand, color: i.color, image: displayUrl(i.imageUrl) }));
-      if (mine.length) realRows += 1;
-      const pieces = mine.length ? mine : SAMPLES[def.id].map(s => ({ name: s[0], image: s[1], sample: true }));
-      return makeRack(def, pieces);
-    });
-    const host = $('#racks');
-    racks.forEach(r => host.appendChild(r.el));
-    racks.forEach(r => { r.layout(); r.setStart(Math.floor(Math.random() * 6)); });
-
-    if (!connected) {
-      $('#intro').innerHTML = 'Showing sample clothes. Open CLOSETÉ on this device and connect first to see your own wardrobe here.';
-    } else if (realRows < RACKS.length) {
-      $('#intro').innerHTML = 'Rows marked <b>SAMPLE</b> have none of your pieces yet. Add tops and shoes in CLOSETÉ and they will appear here.';
+    if (easy) {
+      document.documentElement.lang = 'zh-HK';
+      document.body.style.fontSize = '20px';
+      document.querySelector('header a').textContent = '← 衣櫃';
+      document.querySelector('header h1').textContent = '轉衫架';
+      $('#intro').textContent = '用手指左右撥，衣架就會轉。撳前面嗰件就睇得清楚。';
+      $('#sheetOpen').textContent = '返衣櫃';
+      $('#sheetClose').textContent = '關閉';
     }
-    renderLooks();
+    const items = await loadItems();
+    const host = $('#racks');
+    host.innerHTML = '';
+    if (!items.length) {
+      host.innerHTML = '<p class="intro">' + (get(TOKEN_KEY)
+        ? (easy ? '衣櫃仲係空嘅。' : 'Your wardrobe is empty.')
+        : (easy ? '請先喺 CLOSETÉ 連接衣櫃。' : 'Open CLOSETÉ on this device and connect first.')) + '</p>';
+      return;
+    }
+    const cats = CATEGORIES.concat(Array.from(new Set(items.map(i => i.category))).filter(c => c && !CATEGORIES.includes(c)));
+    racks = cats.map(cat => {
+      const pieces = items.filter(i => (i.category || 'Other') === cat).map(i => ({
+        name: i.name, brand: i.brand, color: i.color, size: i.size, price: Number(i.price || 0),
+        wearCount: Number(i.wearCount || 0), notes: i.notes,
+        image: displayUrl(i.imageUrl), labelImage: displayUrl(i.brandImageUrl)
+      }));
+      return pieces.length ? makeRack(T(cat), pieces, openSheet) : null;
+    }).filter(Boolean);
+    racks.forEach(r => host.appendChild(r.el));
+    racks.forEach(r => r.layout());
   }
 
   window.addEventListener('resize', () => racks.forEach(r => r.layout()));
-
-  $('#shuffle').addEventListener('click', async () => {
-    const btn = $('#shuffle');
-    if (btn.disabled) return;
-    const free = racks.filter(r => !r.locked);
-    if (!free.length) { toast('Every row is locked.'); return; }
-    btn.disabled = true;
-    if (navigator.vibrate) navigator.vibrate(20);
-    await Promise.all(free.map((r, i) => r.spin(i * 450)));
-    btn.disabled = false;
-    if (navigator.vibrate) navigator.vibrate([15, 40, 15]);
-  });
-
-  $('#save').addEventListener('click', () => {
-    const picks = racks.map(r => r.current());
-    let looks = [];
-    try { looks = JSON.parse(get(LOOKS_KEY) || '[]'); } catch (e) {}
-    // Sample drawings are not stored; their slot stays blank in the saved look.
-    looks.unshift({ names: picks.map(p => p.name), images: picks.map(p => p.sample ? '' : p.image) });
-    set(LOOKS_KEY, JSON.stringify(looks.slice(0, 20)));
-    renderLooks();
-    toast('Look saved on this device ♡');
-  });
-
   start();
 })();
 </script>
