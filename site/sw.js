@@ -1,5 +1,5 @@
 /* CLOSETÉ service worker — app shell only. Wardrobe data and photos are never cached here. */
-const CACHE = 'closete-shell-3834aee662';
+const CACHE = 'closete-shell-9bb4f8fb75';
 const SHELL = [
   './',
   'index.html',
