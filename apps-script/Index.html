@@ -12,9 +12,9 @@
   --bg: #f7f1eb;
   --paper: #fffaf5;
   --ink: #252720;
-  --muted: #77766e;
+  --muted: #2f302a;
   --olive: #596347;
-  --line: #e9dfd5;
+  --line: #ddd1c4;
   --rose: #c9826a;
   --danger: #a5432d;
 }
@@ -26,11 +26,12 @@ body {
   background: radial-gradient(ellipse at 80% 0%, #e7ded0 0, transparent 34%), var(--bg);
   color: var(--ink);
   font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   min-height: 100vh;
 }
 
 button, input, select, textarea { font: inherit; color: inherit; }
+::placeholder { color: #5a584f; opacity: 1; }
 button { cursor: pointer; touch-action: manipulation; transition: transform .2s, box-shadow .2s, opacity .2s; }
 button:disabled { opacity: .55; cursor: default; }
 button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20px #51473520; }
@@ -49,13 +50,13 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
 
 .nav { display: grid; gap: 8px; }
 .nav button {
-  font-size: 16px;
+  font-size: 18px;
   border: 0;
   background: transparent;
   text-align: left;
   padding: 13px;
   border-radius: 30px;
-  color: #4c4b43;
+  color: var(--ink);
 }
 .nav button.active, .primary { background: var(--olive); color: white; }
 .nav .nav-add { display: none; }
@@ -91,9 +92,9 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
   min-height: 250px;
 }
 .hero-copy { padding: 32px; }
-.eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 11px; color: var(--olive); font-weight: 700; }
+.eyebrow { text-transform: uppercase; letter-spacing: 2px; font-size: 13px; color: var(--olive); font-weight: 700; }
 .hero h1 { font: clamp(32px, 3vw, 48px)/1.1 'Playfair Display'; margin: 14px 0; }
-.hero p { color: #68645c; }
+.hero p { color: var(--ink); }
 .hero-img {
   background:
     linear-gradient(90deg, #e9dfd4aa, #e9dfd400),
@@ -113,7 +114,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
   box-shadow: 0 5px 18px #54442b08;
 }
 .stat { padding: 17px; }
-.stat small { color: var(--muted); font-size: 14px; }
+.stat small { color: var(--ink); font-size: 16px; }
 .stat strong { display: block; font: 600 25px 'Playfair Display'; margin: 7px 0; }
 
 .section-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 25px 0 15px; }
@@ -149,19 +150,19 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
 .label-badge img { width: 100%; height: 100%; object-fit: cover; }
 
 .details { padding: 12px; }
-.details h3 { font-size: 16px; margin: 0 0 5px; }
-.details p { font-size: 14px; color: var(--muted); margin: 0 0 10px; }
-.tag { display: inline-block; border-radius: 20px; background: #eee6dc; padding: 5px 10px; font-size: 13px; margin: 0 4px 4px 0; }
-.price { font-weight: 600; margin-top: 7px; font-size: 15px; }
-.wear { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.details h3 { font-size: 18px; margin: 0 0 5px; }
+.details p { font-size: 16px; color: var(--muted); margin: 0 0 10px; }
+.tag { display: inline-block; border-radius: 20px; background: #e6dccf; color: var(--ink); padding: 5px 10px; font-size: 15px; margin: 0 4px 4px 0; }
+.price { font-weight: 600; margin-top: 7px; font-size: 17px; }
+.wear { font-size: 15px; color: var(--muted); margin-top: 4px; }
 .card-actions { display: flex; gap: 6px; margin-top: 12px; }
-.card-actions .filter { padding: 8px 10px; min-height: 40px; font-size: 14px; flex: 1; }
+.card-actions .filter { padding: 8px 10px; min-height: 40px; font-size: 16px; flex: 1; }
 
 .empty { grid-column: 1/-1; text-align: center; padding: 55px 15px; color: var(--muted); }
 
 .banner {
   display: none; margin-bottom: 14px; padding: 10px 14px; border-radius: 14px;
-  background: #f3e6d4; color: #6b5537; font-size: 13px;
+  background: #f3e6d4; color: var(--ink); font-size: 15px;
 }
 .banner.show { display: block; }
 
@@ -180,14 +181,14 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
 }
 .modal::-webkit-scrollbar { display: none; }
 .modal h2 { font: 600 32px 'Playfair Display'; margin: 0 0 22px; }
-.modal p.help { color: var(--muted); font-size: 15px; line-height: 1.5; margin: -8px 0 16px; }
+.modal p.help { color: var(--muted); font-size: 17px; line-height: 1.5; margin: -8px 0 16px; }
 
 .form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.field { display: grid; gap: 7px; font-size: 15px; font-weight: 500; color: #5f5d55; }
+.field { display: grid; gap: 7px; font-size: 17px; font-weight: 500; color: var(--ink); }
 .field input, .field select, .field textarea {
   border: 1px solid var(--line); background: white; border-radius: 12px;
   padding: 13px 14px; color: var(--ink); width: 100%; outline-color: #9aa287;
-  font-size: 17px; font-weight: 400; min-height: 50px;
+  font-size: 19px; font-weight: 400; min-height: 50px;
 }
 
 .photo-control { display: flex; gap: 16px; align-items: center; }
@@ -195,12 +196,12 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
 .photo-preview {
   width: 112px; height: 112px; flex: 0 0 112px; border-radius: 14px;
   background: #eee5db; overflow: hidden; display: grid; place-items: center;
-  color: #8f887d; text-align: center; font-size: 13px; padding: 4px;
+  color: var(--ink); text-align: center; font-size: 15px; padding: 4px;
 }
 .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
 .photo-buttons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.photo-buttons .pill { min-height: 46px; padding: 8px 6px; font-size: 15px; white-space: nowrap; }
-.photo-help { font-size: 13px; color: var(--muted); margin-top: 9px; line-height: 1.45; font-weight: 400; }
+.photo-buttons .pill { min-height: 46px; padding: 8px 6px; font-size: 17px; white-space: nowrap; }
+.photo-help { font-size: 15px; color: var(--muted); margin-top: 9px; line-height: 1.45; font-weight: 400; }
 .photo-url { margin-top: 10px; }
 
 .wide { grid-column: 1/-1; }
@@ -212,15 +213,15 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
   background: linear-gradient(#fffaf500, var(--paper) 12px);
 }
 .modal-actions .spacer { flex: 1; }
-.modal-actions button { min-width: 120px; min-height: 48px; font-size: 16px; margin: 0; white-space: nowrap; padding-left: 16px; padding-right: 16px; }
+.modal-actions button { min-width: 120px; min-height: 48px; font-size: 18px; margin: 0; white-space: nowrap; padding-left: 16px; padding-right: 16px; }
 
 .viewer { width: min(860px, 100%); }
 .viewer-photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
 .viewer-photos figure { margin: 0; }
 .viewer-photos img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 16px; background: #eee5db; }
-.viewer-photos figcaption { font-size: 14px; color: var(--muted); margin-top: 6px; text-align: center; }
+.viewer-photos figcaption { font-size: 16px; color: var(--muted); margin-top: 6px; text-align: center; }
 
-.install-steps { font-size: 15px; color: var(--muted); line-height: 1.6; margin: 0; padding-left: 18px; }
+.install-steps { font-size: 17px; color: var(--muted); line-height: 1.6; margin: 0; padding-left: 18px; }
 
 .toast {
   position: fixed; bottom: 25px; left: 50%;
@@ -235,6 +236,24 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pulse { from { opacity: .3; } to { opacity: 1; } }
+
+/* Brands */
+.brand-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; align-items: center; }
+.brand-row .row-label { font-weight: 600; margin-right: 4px; white-space: nowrap; flex: 0 0 auto; }
+.section-head h2 { white-space: nowrap; }
+.sort { min-width: 0; max-width: 100%; }
+.filter .count { display: inline-block; margin-left: 6px; padding: 0 7px; border-radius: 10px; background: #0000000f; font-size: .85em; }
+.filter.active .count { background: #ffffff33; }
+.brand-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.brand-tile {
+  border: 1px solid var(--line); background: var(--paper); border-radius: 16px;
+  padding: 14px 16px; text-align: left; min-height: 64px;
+}
+.brand-tile b { display: block; font-size: 18px; }
+.brand-tile span { font-size: 15px; }
+
+.easy-toggle { font-weight: 700; white-space: nowrap; }
+body.easy .easy-toggle { background: var(--olive); color: white; border-color: var(--olive); }
 
 /* iPad and smaller desktop */
 @media (min-width: 761px) and (max-width: 1100px) {
@@ -261,37 +280,37 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
   }
   .logo { display: none; }
   .nav { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; }
-  .nav button { padding: 9px 2px; border-radius: 13px; text-align: center; font-size: 13px; min-height: 54px; }
+  .nav button { padding: 9px 2px; border-radius: 13px; text-align: center; font-size: 15px; min-height: 54px; }
   .nav .nav-add { display: block; }
   .main { padding: calc(12px + env(safe-area-inset-top)) 12px 24px; }
   .top { gap: 8px; margin-bottom: 14px; }
-  .search { padding: 12px; font-size: 16px; }
+  .search { padding: 12px; font-size: 18px; }
   #refresh, #addTop { display: none; }
   .hero { grid-template-columns: 1fr; min-height: 0; border-radius: 22px; }
   .hero-copy { padding: 23px 20px 18px; }
   .hero h1 { font-size: clamp(31px, 8vw, 42px); margin: 11px 0; }
-  .hero p { font-size: 14px; line-height: 1.5; }
+  .hero p { font-size: 16px; line-height: 1.5; }
   .hero-img { min-height: 130px; max-height: 160px; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin: 12px 0 22px; }
   .stat { padding: 13px; border-radius: 16px; }
   .stat strong { font-size: 22px; }
-  .stat small { font-size: 12px; }
+  .stat small { font-size: 14px; }
   .section-head { margin: 18px 0 12px; }
   .section-head h2 { font-size: 23px; }
-  .sort { font-size: 13px; padding: 8px 12px; min-height: 38px; }
+  .sort { font-size: 15px; padding: 8px 12px; min-height: 38px; }
   .toolbar { width: 100%; }
   .filters { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding: 2px 1px 7px; scrollbar-width: none; }
   .filters::-webkit-scrollbar { display: none; }
-  .filter { white-space: nowrap; flex: 0 0 auto; font-size: 12px; padding: 9px 13px; }
+  .filter { white-space: nowrap; flex: 0 0 auto; font-size: 14px; padding: 9px 13px; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .card { border-radius: 16px; }
   .photo { height: clamp(135px, 43vw, 205px); }
   .details { padding: 10px; }
-  .details h3 { font-size: 15px; line-height: 1.35; }
-  .details p { font-size: 13px; }
-  .tag { font-size: 12px; }
-  .wear { font-size: 12px; }
-  .card-actions .filter { font-size: 13px; padding: 8px 4px; }
+  .details h3 { font-size: 17px; line-height: 1.35; }
+  .details p { font-size: 15px; }
+  .tag { font-size: 14px; }
+  .wear { font-size: 14px; }
+  .card-actions .filter { font-size: 15px; padding: 8px 4px; }
   .modal-back { align-items: flex-end; padding: 0; }
   .modal {
     width: 100%; max-height: 92dvh; border-radius: 24px 24px 0 0;
@@ -302,9 +321,9 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
   .photo-control { align-items: flex-start; }
   .photo-preview { width: 92px; height: 92px; flex-basis: 92px; }
   .photo-buttons { grid-template-columns: 1fr 1fr; }
-  .photo-buttons .pill { font-size: 14px; }
+  .photo-buttons .pill { font-size: 16px; }
   .photo-buttons [data-photo-act=remove] { grid-column: 1 / -1; }
-  .field input, .field select, .field textarea { font-size: 17px; }
+  .field input, .field select, .field textarea { font-size: 19px; }
   .modal-actions { margin: 18px -18px 0; padding: 12px 18px calc(14px + env(safe-area-inset-bottom)); }
   .modal-actions button { flex: 1; min-width: 0; }
   .modal-actions .spacer { display: none; }
@@ -315,6 +334,59 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
   .photo { height: 132px; }
   .form { grid-template-columns: 1fr; }
   .wide { grid-column: auto; }
+}
+
+/* ===== Easy mode (長者模式): bigger, simpler, Chinese ===== */
+body.easy { font-size: 21px; --line: #c9bcae; }
+body.easy .hero-img, body.easy .eyebrow, body.easy .photo-url, body.easy #refresh { display: none; }
+body.easy .hero { grid-template-columns: 1fr; min-height: 0; }
+body.easy .hero-copy { padding: 24px; }
+body.easy .hero h1 { font-size: 36px; }
+body.easy .hero p { font-size: 21px; }
+body.easy .primary { font-size: 21px; min-height: 58px; padding: 14px 26px; }
+body.easy .search { font-size: 21px; padding: 16px 20px; }
+body.easy .pill, body.easy .filter, body.easy .sort, body.easy .danger { font-size: 19px; min-height: 54px; padding: 10px 18px; }
+body.easy .stat small { font-size: 18px; }
+body.easy .stat strong { font-size: 32px; }
+body.easy .section-head h2 { font-size: 32px; }
+body.easy .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+body.easy .photo { height: 260px; }
+body.easy .details { padding: 16px; }
+body.easy .details h3 { font-size: 23px; }
+body.easy .details p { font-size: 20px; }
+body.easy .tag { font-size: 18px; padding: 7px 13px; }
+body.easy .price { font-size: 22px; }
+body.easy .wear { font-size: 19px; }
+body.easy .card-actions { flex-direction: column; gap: 10px; }
+body.easy .card-actions .filter { font-size: 20px; min-height: 58px; }
+body.easy .heart { width: 52px; height: 52px; font-size: 28px; }
+body.easy .label-badge { width: 60px; height: 60px; }
+body.easy .brand-tile b { font-size: 22px; }
+body.easy .brand-tile span { font-size: 19px; }
+body.easy .nav button { font-size: 20px; }
+body.easy .modal h2 { font-size: 36px; }
+body.easy .modal p.help { font-size: 19px; }
+body.easy .form { grid-template-columns: 1fr; gap: 18px; }
+body.easy .field { font-size: 20px; }
+body.easy .field input, body.easy .field select, body.easy .field textarea { font-size: 22px; min-height: 62px; }
+body.easy .photo-buttons { grid-template-columns: 1fr; }
+body.easy .photo-buttons [data-photo-act=remove] { grid-column: auto; }
+body.easy .photo-buttons .pill { font-size: 20px; min-height: 58px; }
+body.easy .photo-help { font-size: 18px; }
+body.easy .photo-preview { width: 130px; height: 130px; flex-basis: 130px; }
+body.easy .modal-actions button { font-size: 21px; min-height: 62px; }
+body.easy .toast { font-size: 22px; padding: 18px 28px; }
+body.easy .empty { font-size: 22px; }
+@media (max-width: 760px) {
+  body.easy { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  body.easy .grid { grid-template-columns: 1fr; }
+  body.easy .photo { height: 300px; }
+  body.easy .nav button { font-size: 17px; min-height: 68px; }
+  body.easy .stats { grid-template-columns: 1fr 1fr; }
+  body.easy .photo-control { flex-direction: column; align-items: stretch; }
+  body.easy .photo-preview { width: 100%; height: 200px; flex-basis: auto; }
+  body.easy .modal-actions { flex-wrap: wrap; }
+  body.easy .modal-actions #deleteBtn { flex-basis: 100%; order: 3; }
 }
 </style>
 </head>
@@ -338,6 +410,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
       <input class="search" id="search" type="search" placeholder="⌕ Search your wardrobe..." autocomplete="off">
       <button class="pill" id="refresh" title="Refresh">↻</button>
       <button class="pill" id="addTop" data-action="add">＋ Add</button>
+      <button class="pill easy-toggle" id="easyToggle" aria-pressed="false">Aa 大字</button>
     </div>
 
     <div id="overview">
@@ -357,6 +430,14 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
         <div class="stat"><small>◎ Total value</small><strong id="value">—</strong><small>Recorded prices</small></div>
         <div class="stat"><small>♥ Favorites</small><strong id="favCount">—</strong><small>Pieces you love</small></div>
       </section>
+
+      <div id="brandSection">
+        <div class="section-head">
+          <h2>Brands</h2>
+          <button class="link" data-view="wardrobe">See all →</button>
+        </div>
+        <div class="brand-tiles" id="brandTiles"></div>
+      </div>
 
       <div class="section-head">
         <h2>Recently added</h2>
@@ -381,6 +462,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
         </div>
       </div>
       <div class="filters" id="filters"></div>
+      <div class="filters brand-row" id="brandFilters"></div>
       <div class="grid" id="items" style="margin-top:12px"></div>
     </div>
   </main>
@@ -398,10 +480,10 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
         </label>
         <label class="field">Category
           <select name="category">
-            <option>Tops</option><option>Bottoms</option>
-            <option>Outerwear</option><option>Shoes</option>
-            <option>Accessories</option><option>Dresses</option>
-            <option>Sportswear</option><option>Other</option>
+            <option value="Tops">Tops</option><option value="Bottoms">Bottoms</option>
+            <option value="Outerwear">Outerwear</option><option value="Shoes">Shoes</option>
+            <option value="Accessories">Accessories</option><option value="Dresses">Dresses</option>
+            <option value="Sportswear">Sportswear</option><option value="Other">Other</option>
           </select>
         </label>
         <label class="field">Brand<input name="brand" placeholder="e.g. Uniqlo" autocomplete="off" list="brandList"></label>
@@ -537,6 +619,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     items: [],
     view: 'overview',
     filter: 'All',
+    brand: 'All',
     sort: 'newest',
     loaded: false,
     offline: false
@@ -552,6 +635,77 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
   let deleteArmed = false;
   let deferredInstall = null;
 
+  /* ---------- easy mode / Chinese labels ---------- */
+  const ZH = {
+    '⌂ Overview': '⌂ 主頁', '♧ Wardrobe': '♧ 衣櫃', '＋ Add': '＋ 新增', '⚙ Settings': '⚙ 設定',
+    'Your wardrobe,': '我的', 'reimagined. ♡': '衣櫃 ♡',
+    'Every piece you own, all in one place.': '所有衫褲，一目了然。', '＋ Add a piece': '＋ 新增衣物',
+    '♧ Pieces': '♧ 件數', 'In your collection': '衣櫃入面', '▦ Categories': '▦ 類別', 'Different styles': '唔同款式',
+    '◎ Total value': '◎ 總值', 'Recorded prices': '已記錄價錢', '♥ Favorites': '♥ 最愛', 'Pieces you love': '鍾意嘅衫',
+    'Brands': '牌子', 'Recently added': '最近新增', 'See all →': '睇晒 →', 'Your collection': '我的衣櫃',
+    'Newest first': '最新', 'Most worn': '最常著', 'Least worn': '最少著', 'Recently worn': '最近著過',
+    'Price: high → low': '價錢：高至低', 'Price: low → high': '價錢：低至高', 'Name A → Z': '名稱 A-Z',
+    'Add a piece': '新增衣物', 'Edit piece': '編輯衣物', 'Item name *': '名稱 *', 'Category': '類別',
+    'Brand': '牌子', 'Color': '顏色', 'Unit': '單位', 'Price': '價錢', 'Purchase date': '購買日期',
+    'Photo of the piece': '衣物相片', '📷 Take photo': '📷 影相', '＋ Import': '＋ 揀相', 'Remove': '刪除相',
+    'Saved to Google Drive.': '相片會存去 Google Drive。', 'Brand / label photo': '牌子／標籤相',
+    'Snap the brand tag, size or care label so you can find it again.': '影低牌子、尺碼或者洗水嘜。',
+    'Notes': '備註', 'Delete': '刪除', 'Cancel': '取消', 'Save piece': '儲存', 'Edit': '編輯', 'Close': '關閉',
+    'No photo': '未有相', 'No label photo': '未有標籤相', 'Piece': '衣物', 'Brand / label': '牌子／標籤',
+    'Tops': '上衣', 'Bottoms': '褲', 'Outerwear': '外套', 'Shoes': '鞋', 'Accessories': '配飾',
+    'Dresses': '裙', 'Sportswear': '運動服', 'Other': '其他', 'All pieces': '全部',
+    'All brands': '所有牌子', 'No brand': '冇牌子', 'Brand:': '牌子：',
+    'Settings': '設定', 'Connect your wardrobe': '連接衣櫃', 'Password': '密碼', 'Connect': '連接',
+    'Apps Script web app URL': 'Apps Script 網址', 'Install on your phone': '安裝到手機', 'Disconnect': '中斷連接',
+    '⌕ Search your wardrobe...': '⌕ 搵衫…', 'e.g. Linen shirt': '例如：麻質恤衫', 'e.g. Uniqlo': '例如：Uniqlo',
+    'e.g. Olive green': '例如：深綠色', 'e.g. 1 pc / 1 pair / 1 set': '例如：1 件 / 1 條 / 1 套',
+    'Fit, material, storage…': '尺碼、物料、擺放位置…',
+    'Wore it': '今日著咗', 'Not worn yet': '未著過', 'Saving…': '儲存緊…', 'Uploading photo…': '上載緊相…',
+    'Deleting…': '刪除緊…', 'Tap again to delete': '再撳一次確認刪除', 'Checking…': '檢查緊…',
+    'Piece saved to your wardrobe ✨': '已儲存 ✨', 'Piece deleted': '已刪除', 'Connected ✨': '已連接 ✨',
+    'No pieces match.': '搵唔到。', 'Please enter an item name.': '請輸入名稱。',
+    'You are offline.': '而家冇網絡。', 'You are offline — changes need a connection.': '而家冇網絡，要有網先改得。',
+    'No photos yet. Tap Edit to add one.': '未有相，撳「編輯」加相。',
+    'Your wardrobe is waiting for its first piece. ✨': '衣櫃仲係空嘅 ✨', 'Tap ＋ Add to get started.': '撳「＋ 新增」開始。',
+    'today': '今日', 'yesterday': '尋日'
+  };
+  const EASY_KEY = 'closete.easy';
+  let easy = false;
+  function T(text) { return easy && ZH[text] ? ZH[text] : text; }
+
+  const originals = new WeakMap();
+  function translatePage() {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: n => (n.parentElement && n.parentElement.closest('script, .grid, #brandTiles, #filters, #brandFilters, #toast, #viewerPhotos'))
+        ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+    });
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      if (!originals.has(node)) originals.set(node, node.nodeValue);
+      const original = originals.get(node);
+      const key = original.trim();
+      if (!key || !ZH[key]) return;
+      node.nodeValue = easy ? original.replace(key, ZH[key]) : original;
+    });
+    document.querySelectorAll('[placeholder]').forEach(el => {
+      if (!el.dataset.ph) el.dataset.ph = el.getAttribute('placeholder');
+      el.setAttribute('placeholder', T(el.dataset.ph));
+    });
+    document.documentElement.lang = easy ? 'zh-HK' : 'en';
+  }
+
+  function setEasy(on, save) {
+    easy = !!on;
+    document.body.classList.toggle('easy', easy);
+    if (save) storage.set(EASY_KEY, easy ? '1' : '0');
+    const btn = document.getElementById('easyToggle');
+    btn.textContent = easy ? 'Aa 標準' : 'Aa 大字';
+    btn.setAttribute('aria-pressed', String(easy));
+    btn.title = easy ? 'Normal mode' : '長者模式：大字、大掣、中文';
+    translatePage();
+  }
+
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
 
@@ -560,7 +714,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
   let toastTimer;
   function toast(message) {
     const el = $('#toast');
-    el.textContent = message;
+    el.textContent = T(message);
     el.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
@@ -593,9 +747,9 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     if (isNaN(then)) return ymd;
     const today = new Date(); today.setHours(0, 0, 0, 0);
     const diff = Math.round((today - then) / 86400000);
-    if (diff <= 0) return 'today';
-    if (diff === 1) return 'yesterday';
-    if (diff < 30) return diff + ' days ago';
+    if (diff <= 0) return T('today');
+    if (diff === 1) return T('yesterday');
+    if (diff < 30) return easy ? diff + ' 日前' : diff + ' days ago';
     return ymd;
   }
 
@@ -763,6 +917,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     return sortItems(state.items.filter(item =>
       (state.filter === 'All'
         || (state.filter === 'Favorites' ? item.favorite : item.category === state.filter))
+      && (state.brand === 'All' || brandKey(item.brand) === state.brand)
       && [item.name, item.brand, item.color, item.category, item.size, item.notes]
         .join(' ').toLowerCase().includes(query)
     ));
@@ -770,8 +925,10 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
 
   function cardHtml(item, index) {
     const wear = item.wearCount
-      ? 'Worn ' + item.wearCount + '× · last ' + escapeHtml(daysAgo(item.lastWorn))
-      : 'Not worn yet';
+      ? (easy
+        ? '著過 ' + item.wearCount + ' 次 · 上次' + escapeHtml(daysAgo(item.lastWorn))
+        : 'Worn ' + item.wearCount + '× · last ' + escapeHtml(daysAgo(item.lastWorn)))
+      : T('Not worn yet');
     const photo = item.imageUrl
       ? '<img class="main-img" loading="lazy" alt="" src="' + escapeHtml(item.imageUrl) + '" onerror="this.style.display=\'none\'">'
       : '<div class="placeholder">♧</div>';
@@ -786,17 +943,71 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
       + '</div>'
       + '<div class="details">'
       +   '<h3>' + escapeHtml(item.name) + '</h3>'
-      +   '<p>' + escapeHtml(item.brand || 'No brand') + (item.color ? ' · ' + escapeHtml(item.color) : '') + '</p>'
-      +   '<span class="tag">' + escapeHtml(item.category || 'Other') + '</span>'
+      +   '<p>' + escapeHtml(item.brand || T('No brand')) + (item.color ? ' · ' + escapeHtml(item.color) : '') + '</p>'
+      +   '<span class="tag">' + escapeHtml(T(item.category || 'Other')) + '</span>'
       +   (item.size ? '<span class="tag">' + escapeHtml(item.size) + '</span>' : '')
       +   '<div class="price">' + money(item.price) + '</div>'
       +   '<div class="wear">' + wear + '</div>'
       +   '<div class="card-actions">'
-      +     '<button class="filter" data-edit="' + escapeHtml(item.id) + '">Edit</button>'
-      +     '<button class="filter" data-worn="' + escapeHtml(item.id) + '">Wore it</button>'
+      +     '<button class="filter" data-edit="' + escapeHtml(item.id) + '">' + T('Edit') + '</button>'
+      +     '<button class="filter" data-worn="' + escapeHtml(item.id) + '">' + T('Wore it') + '</button>'
       +   '</div>'
       + '</div>'
       + '</article>';
+  }
+
+  /* ---------- brands (case-insensitive: "American eagle" = "American Eagle") ---------- */
+  function brandKey(brand) {
+    return String(brand || '').trim().replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  function brandGroups(items) {
+    const groups = new Map();
+    items.forEach(item => {
+      const key = brandKey(item.brand);
+      if (!groups.has(key)) groups.set(key, { key: key, count: 0, spellings: new Map() });
+      const g = groups.get(key);
+      g.count += 1;
+      const spelling = String(item.brand || '').trim().replace(/\s+/g, ' ');
+      g.spellings.set(spelling, (g.spellings.get(spelling) || 0) + 1);
+    });
+    groups.forEach(g => {
+      // Prefer the properly capitalised spelling ("American Eagle" over "American eagle"), then the most used.
+      const caps = t => (t.match(/[A-Z]/g) || []).length;
+      g.label = Array.from(g.spellings.entries()).sort((a, b) =>
+        caps(b[0]) - caps(a[0]) || b[1] - a[1]
+      )[0][0];
+    });
+    return Array.from(groups.values()).sort((a, b) =>
+      (a.key === '') - (b.key === '') || b.count - a.count || a.label.localeCompare(b.label)
+    );
+  }
+
+  function brandName(g) { return g.key ? g.label : T('No brand'); }
+
+  function renderBrands() {
+    const groups = brandGroups(state.items);
+    $('#brandSection').hidden = !groups.some(g => g.key);
+    $('#brandTiles').innerHTML = groups.map(g =>
+      '<button class="brand-tile" data-brand="' + escapeHtml(g.key || '__none') + '">'
+      + '<b>' + escapeHtml(brandName(g)) + '</b><span>' + g.count + (easy ? ' 件' : (g.count === 1 ? ' piece' : ' pieces')) + '</span></button>'
+    ).join('');
+    const chip = (key, label, count) =>
+      '<button class="filter ' + (state.brand === key ? 'active' : '') + '" data-brand="' + escapeHtml(key === '' ? '__none' : key) + '">'
+      + escapeHtml(label) + (count != null ? '<span class="count">' + count + '</span>' : '') + '</button>';
+    $('#brandFilters').innerHTML = '<span class="row-label">' + T('Brand:') + '</span>'
+      + chip('All', T('All brands'), null)
+      + groups.map(g => chip(g.key, brandName(g), g.count)).join('');
+    $('#brandList').innerHTML = groups.filter(g => g.key)
+      .map(g => '<option value="' + escapeHtml(g.label) + '">').join('');
+  }
+
+  /** Use the spelling already in the wardrobe, so "american eagle" is saved as "American Eagle". */
+  function canonicalBrand(brand) {
+    const key = brandKey(brand);
+    if (!key) return '';
+    const g = brandGroups(state.items).find(x => x.key === key);
+    return g ? g.label : String(brand).trim().replace(/\s+/g, ' ');
   }
 
   function render() {
@@ -811,7 +1022,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     $('#wardrobe').hidden = state.view !== 'wardrobe';
     $$('.nav [data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === state.view));
 
-    const emptyMsg = '<div class="empty">Your wardrobe is waiting for its first piece. ✨<br><br>Tap ＋ Add to get started.</div>';
+    const emptyMsg = '<div class="empty">' + T('Your wardrobe is waiting for its first piece. ✨') + '<br><br>' + T('Tap ＋ Add to get started.') + '</div>';
 
     const query = $('#search').value.trim();
     if (state.view === 'overview' && query) {
@@ -825,16 +1036,15 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     const chips = ['All', 'Favorites'].concat(CATEGORIES);
     $('#filters').innerHTML = chips.map(c =>
       '<button class="filter ' + (state.filter === c ? 'active' : '') + '" data-cat="' + c + '">'
-      + (c === 'All' ? 'All pieces' : c === 'Favorites' ? '♥ Favorites' : c) + '</button>'
+      + T(c === 'All' ? 'All pieces' : c === 'Favorites' ? '♥ Favorites' : c) + '</button>'
     ).join('');
 
     const shown = filteredItems();
     $('#items').innerHTML = shown.length
       ? shown.map(cardHtml).join('')
-      : (items.length ? '<div class="empty">No pieces match.</div>' : emptyMsg);
+      : (items.length ? '<div class="empty">' + T('No pieces match.') + '</div>' : emptyMsg);
 
-    $('#brandList').innerHTML = Array.from(new Set(items.map(x => x.brand).filter(Boolean)))
-      .sort().map(b => '<option value="' + escapeHtml(b) + '">').join('');
+    renderBrands();
   }
 
   function setView(view) {
@@ -852,7 +1062,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     const preview = photoBox(kind).querySelector('.photo-preview');
     preview.innerHTML = source
       ? '<img src="' + escapeHtml(source) + '" alt="">'
-      : '<span>' + (kind === 'main' ? 'No photo' : 'No label photo') + '</span>';
+      : '<span>' + T(kind === 'main' ? 'No photo' : 'No label photo') + '</span>';
   }
 
   function preparePhoto(file, kind) {
@@ -941,9 +1151,9 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     showPhoto('main', photoState.main.existing);
     showPhoto('brand', photoState.brand.existing);
 
-    $('#modalTitle').textContent = item ? 'Edit piece' : 'Add a piece';
+    $('#modalTitle').textContent = T(item ? 'Edit piece' : 'Add a piece');
     $('#deleteBtn').hidden = !item;
-    $('#deleteBtn').textContent = 'Delete';
+    $('#deleteBtn').textContent = T('Delete');
     $('#deleteBtn').classList.remove('confirm');
     setSaving(false);
     showModal('#modalBack');
@@ -960,7 +1170,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     $('#saveBtn').disabled = on;
     $('#cancel').disabled = on;
     $('#deleteBtn').disabled = on;
-    $('#saveBtn').textContent = on ? (label || 'Saving…') : 'Save piece';
+    $('#saveBtn').textContent = T(on ? (label || 'Saving…') : 'Save piece');
   }
 
   $('#itemForm').addEventListener('submit', event => {
@@ -974,7 +1184,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
       id: editingId,
       name: name,
       category: form.elements.category.value,
-      brand: form.elements.brand.value.trim(),
+      brand: canonicalBrand(form.elements.brand.value),
       color: form.elements.color.value.trim(),
       size: form.elements.size.value.trim(),
       price: Number(form.elements.price.value || 0),
@@ -1008,11 +1218,11 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     if (!editingId || saving) return;
     if (!deleteArmed) {
       deleteArmed = true;
-      $('#deleteBtn').textContent = 'Tap again to delete';
+      $('#deleteBtn').textContent = T('Tap again to delete');
       $('#deleteBtn').classList.add('confirm');
       setTimeout(() => {
         deleteArmed = false;
-        $('#deleteBtn').textContent = 'Delete';
+        $('#deleteBtn').textContent = T('Delete');
         $('#deleteBtn').classList.remove('confirm');
       }, 3500);
       return;
@@ -1047,8 +1257,8 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     if (item.imageUrl) photos.push(['Piece', item.imageUrl]);
     if (item.brandImageUrl) photos.push(['Brand / label', item.brandImageUrl]);
     $('#viewerPhotos').innerHTML = photos.length
-      ? photos.map(p => '<figure><img alt="" src="' + escapeHtml(p[1]) + '"><figcaption>' + p[0] + '</figcaption></figure>').join('')
-      : '<div class="empty">No photos yet. Tap Edit to add one.</div>';
+      ? photos.map(p => '<figure><img alt="" src="' + escapeHtml(p[1]) + '"><figcaption>' + T(p[0]) + '</figcaption></figure>').join('')
+      : '<div class="empty">' + T('No photos yet. Tap Edit to add one.') + '</div>';
     showModal('#viewerBack');
   }
   $('#viewerClose').addEventListener('click', () => hideModal('#viewerBack'));
@@ -1069,7 +1279,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     $('#urlField').hidden = IS_APPS_SCRIPT;
     $('#installBox').hidden = IS_APPS_SCRIPT;
     $('#installBtn').hidden = !deferredInstall;
-    $('#settingsTitle').textContent = required ? 'Connect your wardrobe' : 'Settings';
+    $('#settingsTitle').textContent = T(required ? 'Connect your wardrobe' : 'Settings');
     $('#settingsHelp').innerHTML = message
       ? escapeHtml(message)
       : (IS_APPS_SCRIPT
@@ -1078,7 +1288,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     $('#settingsCancel').hidden = !!required;
     $('#forgetBtn').hidden = !!required || !isConfigured();
     $('#connectBtn').disabled = false;
-    $('#connectBtn').textContent = 'Connect';
+    $('#connectBtn').textContent = T('Connect');
     showModal('#settingsBack');
   }
 
@@ -1092,7 +1302,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
     }
     if (!next.token) { toast('Enter your password.'); return; }
     $('#connectBtn').disabled = true;
-    $('#connectBtn').textContent = 'Checking…';
+    $('#connectBtn').textContent = T('Checking…');
     api('ping', {}, next)
       .then(() => {
         if (!IS_APPS_SCRIPT) storage.set(STORE.url, next.url);
@@ -1103,7 +1313,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
       })
       .catch(error => {
         $('#connectBtn').disabled = false;
-        $('#connectBtn').textContent = 'Connect';
+        $('#connectBtn').textContent = T('Connect');
         $('#settingsHelp').textContent = error.message;
       });
   });
@@ -1143,6 +1353,14 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
 
     if (d.cat) { state.filter = d.cat; render(); }
 
+    if (d.brand) {
+      const key = d.brand === '__none' ? '' : d.brand;
+      const fromOverview = !!button.closest('#brandTiles');
+      state.brand = (!fromOverview && state.brand === key) ? 'All' : key;
+      if (fromOverview) { state.filter = 'All'; $('#search').value = ''; setView('wardrobe'); }
+      else render();
+    }
+
     if (d.open) { const item = findItem(d.open); if (item) openViewer(item); }
 
     if (d.edit) { const item = findItem(d.edit); if (item) openItemModal(item); }
@@ -1165,14 +1383,14 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
       if (!item || busy.has('worn' + item.id)) return;
       if (state.offline) { toast('You are offline.'); return; }
       busy.add('worn' + item.id);
-      $$('[data-worn="' + CSS.escape(item.id) + '"]').forEach(b => { b.disabled = true; b.textContent = 'Saving…'; });
+      $$('[data-worn="' + CSS.escape(item.id) + '"]').forEach(b => { b.disabled = true; b.textContent = T('Saving…'); });
       api('markWorn', { id: item.id })
         .then(r => {
           item.wearCount = r.wearCount;
           item.lastWorn = r.lastWorn;
           cacheItems();
           render();
-          toast('Wear logged — ' + r.wearCount + '× so far ✨');
+          toast(easy ? '已記錄，著過 ' + r.wearCount + ' 次 ✨' : 'Wear logged — ' + r.wearCount + '× so far ✨');
         })
         .catch(e => { render(); toast(e.message || 'Could not update wear log'); })
         .finally(() => busy.delete('worn' + item.id));
@@ -1180,6 +1398,11 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
   });
 
   $('#refresh').addEventListener('click', () => load());
+  $('#easyToggle').addEventListener('click', () => {
+    setEasy(!easy, true);
+    render();
+    toast(easy ? '長者模式：已開啟大字' : 'Normal mode');
+  });
   $('#search').addEventListener('input', render);
   $('#sort').addEventListener('change', e => { state.sort = e.target.value; render(); });
 
@@ -1197,6 +1420,7 @@ button:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 8px 20p
 
   /* ---------------- start ---------------- */
 
+  setEasy(storage.get(EASY_KEY) === '1', false);
   loadCachedItems();
   if (state.items.length) render(); else renderLoading();
   if (isConfigured()) load(); else openSettings(true);
