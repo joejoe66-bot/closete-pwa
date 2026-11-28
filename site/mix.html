@@ -41,9 +41,13 @@ header h1 { font: 600 28px 'Playfair Display'; margin: 0; flex: 1; }
 .stage {
   position: relative; height: calc(var(--card-h) + 26px); perspective: 1100px;
   overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
-  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
 }
+/* soft fade at both ends, drawn on top of the clothes but under the arrows */
+.stage::before, .stage::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 14%; z-index: 2; pointer-events: none;
+}
+.stage::before { left: 0; background: linear-gradient(90deg, var(--bg), #f7f1eb00); }
+.stage::after { right: 0; background: linear-gradient(270deg, var(--bg), #f7f1eb00); }
 .stage.dragging { cursor: grabbing; }
 .rail { /* the clothes rail behind the hangers */
   position: absolute; left: 0; right: 0; top: 10px; height: 4px; border-radius: 2px;
@@ -71,7 +75,8 @@ header h1 { font: 600 28px 'Playfair Display'; margin: 0; flex: 1; }
 .arrow {
   position: absolute; top: calc(50% + 10px); transform: translateY(-50%); z-index: 3;
   width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line);
-  background: #fffaf5ee; font-size: 22px; line-height: 1; display: grid; place-items: center;
+  background: #fff; font-size: 22px; line-height: 1; display: grid; place-items: center;
+  box-shadow: 0 4px 14px #4b3d2a26; font-weight: 700;
 }
 .arrow.prev { left: 4px; }
 .arrow.next { right: 4px; }
@@ -122,8 +127,27 @@ header h1 { font: 600 28px 'Playfair Display'; margin: 0; flex: 1; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (min-width: 700px) {
-  :root { --card-w: 170px; --card-h: 200px; }
-  header h1 { font-size: 34px; }
+  :root { --card-w: 210px; --card-h: 250px; }
+  body { font-size: 19px; }
+  .wrap { max-width: 1100px; padding: 0 28px; }
+  header h1 { font-size: 40px; }
+  .intro { font-size: 18px; }
+  .rack { margin: 18px 0 6px; }
+  .rack-head h2 { font-size: 20px; }
+  .count { font-size: 17px; }
+  .caption b { font-size: 21px; }
+  .caption span { font-size: 17px; }
+  .arrow { width: 56px; height: 56px; font-size: 28px; }
+  .arrow.prev { left: 16px; }
+  .arrow.next { right: 16px; }
+  .stage { height: calc(var(--card-h) + 34px); }
+  .sheet { width: min(720px, 100%); }
+  .sheet h2 { font-size: 32px; }
+  .sheet-meta { font-size: 19px; }
+}
+@media (min-width: 1200px) {
+  :root { --card-w: 250px; --card-h: 300px; }
+  .wrap { max-width: 1280px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
